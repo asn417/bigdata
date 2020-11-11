@@ -1,0 +1,56 @@
+# HDFS
+## hdfs读写流程
+### 读流程
+![读流程](resources/imgs/hdfs读流程.jpg)
+### 写流程
+![写流程](resources/imgs/hdfs写流程.jpg)
+## 拓扑距离和机架感知
+
+## NameNode和SecondaryNameNode的交互流程
+![](resources/imgs/namenode工作机制.jpg)
+
+namenode负责管理元数据信息，读写请求都要通过namenode，为了提高获取元数据的速度，需要将其放到内存中。但为了防止丢失，
+还需要持久化到磁盘。因此，namenode每次启动的时候都会从磁盘中获取元数据加载到内存，之后才能提高服务。但还存在一个问题，
+就是namenode启动后，有新的读写请求时，这些新的操作日志也需要持久化，因此会先写edits日志，然后才更新内存元数据。可是这些
+edits日志如果过来越大，越来越多，那么每次启动namenode的时候都需要花费大量的时间进行合并，对namenode的性能有影响。
+因此产生了secondartnamenode，它负责定期拉取namenode上的edits文件和fsimage文件进行合并成一个新的fsimage，然后交还给
+namenode替换掉旧的fsimage。分担了namenode启动时的压力。
+可以发现，secondarynamenode在拉取日志进行本地合并的时候，namenode在这段时间还需要工作，因此这段时间的edits日志还是保留
+在namenode上的，所以如果在合并的时候，namenode挂掉了，那么这部分edits日志就丢失了。所以secondarynamenode并不是namenode
+的高可用方案，只是分担压力。
+
+## DataNode动态上下线、黑白名单
+1、添加新的DataNode非常简单，只需要在新的机器上安装Hadoop，并修改配置文件，然后直接启动DataNode服务即可加入集群
+2、DataNode下线，可以直接杀死进程，或者添加到黑名单。添加黑名单需要先创建一个文件保存要退役的节点，然后将此文件
+路径配置到hdfs-site.xml文件的dfs.hosts.exclude属性，最后在namenode上刷新node即可：
+```
+hdfs dfsadmin -refreshNodes
+```
+加入到黑名单的节点状态会变成decommissioned。  
+对于白名单配置，也是先创建文件存储白名单节点，然后配置到hdfs-site.xml中，只是配置属性变为dfs.hosts。然后在namenode上刷新node即可。白名单以外
+的节点，会立即失去与namenode的关联。  
+**黑白名单的作用**
+- 黑名单：退役DataNode节点
+- 白名单：明确集群由哪些DataNode组成，防止多集群的时候节点混乱
+## DataNode多目录配置
+可以配置多个存储数据的路径，没啥作用，主要的作用是当一开始配置的路径存满了的时候，
+增加一个磁盘，然后修改多路径目录添加这个新的磁盘。
+
+##小文件的弊端
+hdfs中的数据是按块存储的，大量的小文件对应大量的块信息，导致namenode需要维护过多的元数据信息，消耗内存。
+_注意：数据实际占有磁盘大小跟块无关，比如一个1M的小文件，对应的块是128M，但实际存储只占1M磁盘空间_  
+hadoop2中增加了新特性，**小文件归档**，能够将众多小文件归档到一个元数据中，降低namenode内存压力。
+
+# MapReduce
+## MAP
+### partition
+### combine
+### sort
+##SHUFFLE
+##REDUCE
+### group
+# YARN
+资源调度器，主要由ResourceManager、NodeManager、ApplicationMaster、和container组成。
+![yarn架构](resources/imgs/yarn架构.jpg)  
+
+![yarn工作流程](resources/imgs/yarn工作流程.jpg)
