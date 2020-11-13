@@ -42,8 +42,8 @@ object HelloWorld {
     this.name
   }
 
-  //没有返回值的方法
-  def setName(name:String)={
+  //没有返回值的方法，用Unit表示，相当于java中的void关键字
+  def setName(name:String):Unit={
     this.name=name
   }
 
