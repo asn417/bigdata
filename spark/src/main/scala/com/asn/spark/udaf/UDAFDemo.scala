@@ -1,8 +1,8 @@
-package com.asn.spark.udf
+package com.asn.spark.udaf
 
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
-import org.apache.spark.sql.expressions.{MutableAggregationBuffer, UserDefinedAggregateFunction, UserDefinedFunction}
+import org.apache.spark.sql.expressions.{MutableAggregationBuffer, UserDefinedAggregateFunction}
 import org.apache.spark.sql.types.{DataType, DoubleType, LongType, StructType}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 /**
  * @Author: wangsen
