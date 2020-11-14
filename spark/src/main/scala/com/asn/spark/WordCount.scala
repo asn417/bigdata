@@ -26,5 +26,7 @@ object WordCount {
     val result: Array[(String, Int)] = wordToSum.collect()
 
     result.foreach(println)
+
+    sc.stop();
   }
 }
