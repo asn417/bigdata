@@ -5,6 +5,7 @@ object OOPDemo {
     val user: User = new User()
     user.userName="zhangsan"
     println(user.userName)
+
   }
 }
 
