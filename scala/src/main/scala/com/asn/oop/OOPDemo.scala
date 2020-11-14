@@ -1,4 +1,4 @@
-package oop
+package com.asn.oop
 
 object OOPDemo {
   def main(args: Array[String]): Unit = {
