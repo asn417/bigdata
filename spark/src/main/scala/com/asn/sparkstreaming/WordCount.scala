@@ -2,7 +2,7 @@ package com.asn.sparkstreaming
 
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.dstream.{DStream, ReceiverInputDStream}
-import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.apache.spark.streaming.{Seconds, StreamingContext, dstream}
 
 /**
  * @Author: wangsen
@@ -18,10 +18,21 @@ object WordCount {
 
     val socketStreaming: ReceiverInputDStream[String] = streamingContext.socketTextStream("flink1",9999)
 
-    socketStreaming.flatMap(line=>line.split(" "))
-      .map(word=>(word,1))
-      .reduceByKey(_+_)
-      .print()
+
+
+    val mapValue: DStream[(String, Int)] = socketStreaming.flatMap(line=>line.split(" ")).map(word=>(word,1))
+
+    //加上状态更新操作(checkpoint)，以便实现对连续不断的微批数据的统计，而不是仅统计当前批次
+    streamingContext.sparkContext.setCheckpointDir("checkpoint")//设置检查点报错路径
+    val stateValue: DStream[(String, Int)] = mapValue.updateStateByKey {
+      case (seq, buffer) => {
+        val sum: Int = buffer.getOrElse(0) + seq.sum
+        Option(sum)
+      }
+    }
+
+    //stateValue.print()
+    stateValue.reduceByKey(_+_).print()
 
     streamingContext.start()
 
