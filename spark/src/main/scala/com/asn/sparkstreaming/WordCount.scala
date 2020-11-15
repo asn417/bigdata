@@ -31,7 +31,6 @@ object WordCount {
       }
     }
 
-    //stateValue.print()
     stateValue.reduceByKey(_+_).print()
 
     streamingContext.start()
