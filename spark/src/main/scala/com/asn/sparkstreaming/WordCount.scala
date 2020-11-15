@@ -18,8 +18,6 @@ object WordCount {
 
     val socketStreaming: ReceiverInputDStream[String] = streamingContext.socketTextStream("flink1",9999)
 
-
-
     val mapValue: DStream[(String, Int)] = socketStreaming.flatMap(line=>line.split(" ")).map(word=>(word,1))
 
     //加上状态更新操作(checkpoint)，以便实现对连续不断的微批数据的统计，而不是仅统计当前批次

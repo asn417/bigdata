@@ -10,23 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hadoop</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>${hadoop.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-                <!-- 因为使用的是自定义的log4j2，因此这里排除掉自带的log4j，不然因为没有定义log4j配置文件而报警告！ -->
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    </dependencies>
+
 
 </project>

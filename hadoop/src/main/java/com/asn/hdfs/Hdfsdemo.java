@@ -17,7 +17,7 @@ public class Hdfsdemo {
 
     @Before
     public void before() throws URISyntaxException, IOException, InterruptedException {
-        fs = FileSystem.get(new URI("hdfs://flink1:9000"), new Configuration(), "root");
+        fs = FileSystem.get(new URI("hdfs://flink2:9000"), new Configuration(), "root");
         System.out.println("before......");
     }
 
@@ -27,7 +27,7 @@ public class Hdfsdemo {
         Configuration configuration = new Configuration();
         configuration.setInt("dfs.replication",1);
         configuration.setInt("dfs.blocksize",1048576);
-        fs = FileSystem.get(new URI("hdfs://flink1:9000"), configuration, "root");
+        fs = FileSystem.get(new URI("hdfs://flink2:9000"), configuration, "root");
         fs.copyFromLocalFile(new Path("d:/1.txt"),new Path("/1.txt"));
     }
 
