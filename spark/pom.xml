@@ -12,6 +12,7 @@
     <artifactId>spark</artifactId>
     <dependencies>
         <dependency>
+            <!-- :注意，打包的时候要provided，因为安装的spark已经有这个jar包 -->
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.12</artifactId>
             <version>${spark.version}</version>
@@ -28,10 +29,16 @@
             <artifactId>spark-sql_2.12</artifactId>
             <version>${spark.version}</version>
         </dependency>
-        <!-- 引入spark streaming -->
+        <!-- 引入spark streaming :注意，打包的时候要provided，因为安装的spark已经有这个jar包-->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming_2.12</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <!-- 引入spark streaming kafka依赖 -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_2.12</artifactId>
             <version>${spark.version}</version>
         </dependency>
         <dependency>
