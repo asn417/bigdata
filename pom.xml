@@ -8,10 +8,10 @@
     <artifactId>bigdata</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>spark</module>
         <module>hadoop</module>
-
         <module>scala</module>
     </modules>
 
@@ -47,10 +47,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
+        <!-- 引入spark核心组件 -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.12</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <!-- 引入sparkSQL依赖 -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.12</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <!-- 引入spark streaming -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.12</artifactId>
             <version>${spark.version}</version>
         </dependency>
     </dependencies>
