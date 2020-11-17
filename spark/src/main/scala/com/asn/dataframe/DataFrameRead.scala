@@ -5,7 +5,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 //DataFrame支持多种数据源和文件格式，包括json、CSV、parquet、orc、text、jdbc等
 //还可以自定义schema，将RDD反射成有结构的DataFrame
 //json、parquet、orc、jdbc这些数据源是自带schema的，其他没有schema的数据源，dataframe会自己生成
-object ReadJsonDemo {
+object DataFrameRead {
   def main(args: Array[String]): Unit = {
 
     val sparkSession: SparkSession = SparkSession.builder()
