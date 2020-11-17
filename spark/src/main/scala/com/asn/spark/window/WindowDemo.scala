@@ -7,7 +7,7 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
 /**
  * @Author: wangsen
  * @Date: 2020/11/15 15:26
- * @Description:
+ * @Description: 窗口函数，可以对某个范围内的数据进行聚合操作。
  **/
 object WindowDemo {
   def main(args: Array[String]): Unit = {
