@@ -27,13 +27,13 @@ object JoinDemo {
     //用cogroup+flatmap实现join功能
     val cogroupRDD: RDD[(Int, (Iterable[Int], Iterable[Int]))] = rdd1.cogroup(rdd2)//[()]
     val value: RDD[(Int, (Int, Int))] = cogroupRDD.flatMap(x => {
-      val arr = new ArrayBuffer[(Int, (Int, Int))]()
+      val arr = new ArrayBuffer[(Int, (Int, Int))]()//可变数组
       val key: Int = x._1
       val value1: Iterable[Int] = x._2._1
       val value2: Iterable[Int] = x._2._2
       for (v1 <- value1) {
         for (v2 <- value2) {
-          arr += ((key, (v1, v2)))
+          arr += ((key, (v1, v2)))//向可变数组中放入值
         }
       }
       arr
