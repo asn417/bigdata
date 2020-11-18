@@ -1,9 +1,8 @@
 package com.asn.spark.kafka
 
-import org.apache.kafka.clients.consumer.ConsumerRecord
+
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
-import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
@@ -36,12 +35,18 @@ object KafaStreamingDemo {
       Subscribe[String, String](topics, kafkaParams)
     )
 
-    stream.map(record => println(record.key, record.value))
-      .foreachRDD(mess => {
-        //获取offset集合
-        val ranges: Array[OffsetRange] = mess.asInstanceOf[HasOffsetRanges].offsetRanges
-        stream.asInstanceOf[CanCommitOffsets].commitAsync(ranges)
-      })
+    stream.foreachRDD(eachRdd =>{
+      if(!eachRdd.isEmpty()){
+        eachRdd.foreachPartition(eachPartition =>{
+          eachPartition.foreach(record =>{
+            println((record.key(),record.value()))
+          })
+        })
+        //准备更新offset的值  获取到了offset的值，更新到hbase里面去即可
+        val offsetRanges: Array[OffsetRange] = eachRdd.asInstanceOf[HasOffsetRanges].offsetRanges
+        stream.asInstanceOf[CanCommitOffsets].commitAsync(offsetRanges)
+      }
+    })
 
     streamingContext.start()
 
