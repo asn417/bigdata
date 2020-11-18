@@ -1,15 +1,17 @@
 package com.asn.spark.kafka
 
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
+import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
-import org.apache.spark.streaming.kafka010.KafkaUtils
+import org.apache.spark.streaming.kafka010.{CanCommitOffsets, HasOffsetRanges, KafkaUtils, OffsetRange}
 /**
  * @Author: wangsen
  * @Date: 2020/11/15 13:27
- * @Description:
+ * @Description: sparkstreaming 消费kafka，在kafka0.10+版本中，已经不支持receiver的消费方式，只支持direct方式
  **/
 object KafaStreamingDemo {
   def main(args: Array[String]): Unit = {
@@ -24,7 +26,7 @@ object KafaStreamingDemo {
       "value.deserializer" -> classOf[StringDeserializer],
       "group.id" -> "spark_group",
       "auto.offset.reset" -> "latest",
-      "enable.auto.commit" -> (false: java.lang.Boolean)
+      "enable.auto.commit" -> (false: java.lang.Boolean)//关闭自动提交offset
     )
 
     val topics = Array("topicA", "topicB")
@@ -34,7 +36,12 @@ object KafaStreamingDemo {
       Subscribe[String, String](topics, kafkaParams)
     )
 
-    stream.map(record => (record.key, record.value)).print()
+    stream.map(record => println(record.key, record.value))
+      .foreachRDD(mess => {
+        //获取offset集合
+        val ranges: Array[OffsetRange] = mess.asInstanceOf[HasOffsetRanges].offsetRanges
+        stream.asInstanceOf[CanCommitOffsets].commitAsync(ranges)
+      })
 
     streamingContext.start()
 
