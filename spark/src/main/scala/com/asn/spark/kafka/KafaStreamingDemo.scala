@@ -24,7 +24,7 @@ object KafaStreamingDemo {
       "key.deserializer" -> classOf[StringDeserializer],
       "value.deserializer" -> classOf[StringDeserializer],
       "group.id" -> "spark_group",
-      "auto.offset.reset" -> "latest",
+      "auto.offset.reset" -> "latest",//默认的配置
       "enable.auto.commit" -> (false: java.lang.Boolean)//关闭自动提交offset
     )
 
@@ -42,9 +42,10 @@ object KafaStreamingDemo {
             println((record.key(),record.value()))
           })
         })
-        //准备更新offset的值  获取到了offset的值，更新到hbase里面去即可
+        //消费完再提交offset，这样能避免还没消费数据就提交offset带来的潜在的数据丢失问题（当offset已提交，但还未消费数据时宕机了，那么重启后就从提交的offset开始消费了，
+        // 宕机前未消费完的数据就不会再消费了）
         val offsetRanges: Array[OffsetRange] = eachRdd.asInstanceOf[HasOffsetRanges].offsetRanges
-        stream.asInstanceOf[CanCommitOffsets].commitAsync(offsetRanges)
+        stream.asInstanceOf[CanCommitOffsets].commitAsync(offsetRanges)//异步提交
       }
     })
 
