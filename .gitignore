@@ -29,3 +29,5 @@ hs_err_pid*
 .idea/
 hadoop.iml
 src/test/
+/spark-springboot/mvnw
+/spark-springboot/mvnw.cmd
