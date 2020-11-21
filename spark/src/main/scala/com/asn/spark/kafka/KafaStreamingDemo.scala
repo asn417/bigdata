@@ -44,6 +44,7 @@ object KafaStreamingDemo {
         })
         //消费完再提交offset，这样能避免还没消费数据就提交offset带来的潜在的数据丢失问题（当offset已提交，但还未消费数据时宕机了，那么重启后就从提交的offset开始消费了，
         // 宕机前未消费完的数据就不会再消费了）
+        //但先消费后提交存在重复消费的风险。为此，需要加上幂等性操作，来解决重复消费的问题。
         val offsetRanges: Array[OffsetRange] = eachRdd.asInstanceOf[HasOffsetRanges].offsetRanges
         stream.asInstanceOf[CanCommitOffsets].commitAsync(offsetRanges)//异步提交
       }
