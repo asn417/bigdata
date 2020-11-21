@@ -8,10 +8,11 @@ object WordCount {
     //创建spark程序的运行环境（部署环境）
 
     //master指定了spark的运行模式：spark、yarn、local
-    //在实际运行时，一般不会将master信息硬编码到这里，而是采用spark-submit时动态传入
-    val sparkConf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("wordcount")
+    //在实际运行时，一般不会将master信息硬编码到这里，而是采用spark-submit时动态传入，或者是在使用SparkLauncher时传入
+    val sparkConf: SparkConf = new SparkConf().setMaster("yarn").setAppName("wordcount")
+    //val sparkConf: SparkConf = new SparkConf().setAppName("wordcount")
+    //sparkConf.setExecutorEnv("deployMode","client")
     val sc = new SparkContext(sparkConf)
-    //print(sc)
     //本地读取方式：file://
     //hdfs读取方式：hdfs://
     //textFile读取文件生成的rdd默认会按照文件的块数创建分区（hdfs默认128m一个块），可以通过第二个参数指定最小分区数
@@ -26,7 +27,7 @@ object WordCount {
     val result: Array[(String, Int)] = wordToSum.collect()
 
     result.foreach(println)
-
+    wordToSum.saveAsTextFile("/wc.txt")
     sc.stop();
   }
 }
