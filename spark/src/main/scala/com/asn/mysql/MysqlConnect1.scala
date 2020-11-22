@@ -9,7 +9,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
  **/
 object MysqlConnect1 {
   def main(args: Array[String]): Unit = {
-    val spark = SparkSession.builder().appName("test").master("local[2]").getOrCreate()
+    val spark: SparkSession = SparkSession.builder().appName("test").master("local[2]").getOrCreate()
     val df: DataFrame = spark.read
       .format("jdbc")
       .option("url", "jdbc:mysql://localhost/big_data?serverTimezone=Asia/Shanghai")
