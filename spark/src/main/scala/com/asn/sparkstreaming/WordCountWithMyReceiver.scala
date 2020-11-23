@@ -1,6 +1,6 @@
 package com.asn.sparkstreaming
 
-import com.asn.spark.receiver.MyReceiver
+import com.asn.sparkstreaming.receiver.MyReceiver
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.dstream.ReceiverInputDStream

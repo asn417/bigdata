@@ -1,4 +1,4 @@
-package com.asn.spark.window
+package com.asn.sparkstreaming.window
 
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.dstream.{DStream, ReceiverInputDStream}

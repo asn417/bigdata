@@ -1,8 +1,10 @@
-package com.asn.spark.kafka
+package com.asn.sparkstreaming.kafka
 
 
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
+import org.apache.spark.streaming.dstream.InputDStream
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
@@ -29,7 +31,7 @@ object KafaStreamingDemo {
     )
 
     val topics = Array("topicA", "topicB")
-    val stream = KafkaUtils.createDirectStream[String, String](
+    val stream: InputDStream[ConsumerRecord[String, String]] = KafkaUtils.createDirectStream[String, String](
       streamingContext,
       PreferConsistent,
       Subscribe[String, String](topics, kafkaParams)

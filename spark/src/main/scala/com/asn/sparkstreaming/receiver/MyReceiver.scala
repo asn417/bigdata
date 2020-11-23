@@ -1,4 +1,4 @@
-package com.asn.spark.receiver
+package com.asn.sparkstreaming.receiver
 
 import java.io.{BufferedReader, InputStreamReader}
 import java.net.Socket
