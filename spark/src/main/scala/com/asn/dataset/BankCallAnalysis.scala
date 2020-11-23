@@ -66,10 +66,10 @@ object BankCallAnalysis {
 
     //import spark.implicits._
 
-    //该数据集中的记录有些字段没用采集到数据为unknown
-    val df = spark.read.schema(schema).option("sep", ";")
+    val df: DataFrame = spark.read.schema(schema).option("sep", ";")
       .option("header", true)
       .csv("E:\\bigdata\\spark\\src\\main\\resources\\data\\bank-additional-full.csv")
+    //该数据集中的记录有些字段没用采集到数据为unknown
 
     println(df.count())
 

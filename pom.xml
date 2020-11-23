@@ -13,6 +13,7 @@
         <module>spark</module>
         <module>hadoop</module>
         <module>scala</module>
+        <module>flink</module>
     </modules>
 
     <properties>

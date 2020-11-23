@@ -1,6 +1,6 @@
 package com.asn.sparkSQL
 
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 /**
  * sparkSQL是作用在视图上的，视图可以从dataframe或dataset直接创建，也可以直接读取hive元数据操作hive表
@@ -29,4 +29,4 @@ object SparkSqlDemo {
   }
 }
 
-case class StudentGrade(name:String,subject:String,grade:Long)
+
