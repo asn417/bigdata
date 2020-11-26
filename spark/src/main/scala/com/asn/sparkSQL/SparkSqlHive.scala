@@ -38,3 +38,4 @@ object SparkSqlHive {
     resultDF.write.mode(SaveMode.Overwrite).saveAsTable("spark.student")
   }
 }
+case class Record(key: Int, value: String)
