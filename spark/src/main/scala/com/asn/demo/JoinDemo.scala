@@ -1,4 +1,4 @@
-package com.asn.rdd
+package com.asn.demo
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
