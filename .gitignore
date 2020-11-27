@@ -25,9 +25,11 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-.gitignore
+bigdata.iml
 .idea/
-hadoop.iml
+*.iml
 src/test/
 /spark-springboot/mvnw
 /spark-springboot/mvnw.cmd
+
+./spark/spark.iml

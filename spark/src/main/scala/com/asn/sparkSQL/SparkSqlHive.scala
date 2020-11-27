@@ -20,7 +20,7 @@ object SparkSqlHive {
     val schema = StructType(
       List(
         StructField("name",StringType),
-        StructField("age",IntegerType),
+        StructField("age",IntegerType)
       )
     )
 
