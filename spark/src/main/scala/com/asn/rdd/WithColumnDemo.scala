@@ -7,7 +7,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  * @Date: 2020/11/27 17:16
  * @Description: 增加列
  **/
-object WithColumnsDemo {
+object WithColumnDemo {
   def main(args: Array[String]): Unit = {
     val spark: SparkSession = SparkSession.builder().master("local[3]").appName(this.getClass.getName).getOrCreate()
 
