@@ -1,36 +1,41 @@
 package com.asn.sparkSQL
 
-import java.io.File
-
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
+import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 
 /**
- * 官网：http://spark.apache.org/docs/3.0.0/sql-data-sources-hive-tables.html
- *
- * sparkSQL可以通过hive-site.xml文件的配置直接读取hive元数据.
- * 通过enableHiveSupport()方法开启hive支持，前提是需要将hive-site.xml拷贝到spark的配置目录下
+ * 提交到yarn运行
+ * spark-submit --master yarn --class com.asn.sparkSQL.SparkSqlHive spark-1.0-SNAPSHOT.jar
  */
 object SparkSqlHive {
   def main(args: Array[String]): Unit = {
-
-    // warehouseLocation points to the default location for managed databases and tables
-    val warehouseLocation = new File("spark-warehouse").getAbsolutePath
-
-    val spark = SparkSession
+    val spark: SparkSession = SparkSession
       .builder()
-      .appName("Spark Hive Example")
-      .config("spark.sql.warehouse.dir", warehouseLocation)
+      .appName("Hive on Spark")
+      .config("spark.sql.warehouse.dir","hdfs://ns1/user/hive")
+      .config("hive.metastore.uris","thrift://flink3:9083")
       .enableHiveSupport()
       .getOrCreate()
 
+    val schema = StructType(
+      List(
+        StructField("name",StringType),
+        StructField("age",IntegerType),
+      )
+    )
+
+    //读取数据到DF
+    val df: DataFrame = spark.read.option("delimiter", ",")
+      .schema(schema)
+      .csv("hdfs:///student.csv")
+
     import spark.implicits._
-    import spark.sql
 
-    sql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING) USING hive")
-    sql("LOAD DATA LOCAL INPATH 'data/kv1.txt' INTO TABLE src")
+    //过滤数据
+    val resultDF = df.where('age>30)
 
-    // Queries are expressed in HiveQL
-    sql("SELECT * FROM src").show()
+    //将数据存到spark数据库的student表
+    resultDF.write.mode(SaveMode.Overwrite).saveAsTable("spark.student")
   }
 }
 case class Record(key: Int, value: String)
