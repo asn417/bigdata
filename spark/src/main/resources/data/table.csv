@@ -1,6 +1,10 @@
-dwade,38
-james,36
-aaa,22
-aa,12
-as,21
-pole,35
+name,age,score
+dwade,38,NaN
+james,36,90
+aaa,22,85.5
+aa,NaN,95
+as,21,88
+pole,35,97
+nobody1,NaN,NaN
+nobody2,NaN,NaN
+NaN,NaN,NaN
