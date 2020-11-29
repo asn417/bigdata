@@ -1,17 +1,14 @@
 package com.asn.spark.window
 
 import org.apache.spark.sql.expressions.{Window, WindowSpec}
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{Column, DataFrame, SparkSession}
 
 /**
  * @Author: wangsen
  * @Date: 2020/11/29 11:20
- * @Description: 利用窗口函数，获取每个类别收入最高的两个商品
- * rank、dense_rank和row_number三个排序函数的区别：
- *    1) rank会跳号，dense_rank会递增
- *    2) row_number不管排序的字段是否相同，一律递增排序，而rank和dense_rank对于排序字段相同的记录，会给与相同的序号
+ * @Description: 利用窗口函数，获取每个商品与对应类别最大价格的价差
  **/
-object WindowFun {
+object WindowFun2 {
   def main(args: Array[String]): Unit = {
     val spark: SparkSession = SparkSession.builder()
       .master("local[*]")
@@ -40,16 +37,12 @@ object WindowFun {
       .orderBy('revenue.desc)
     window
 
-    //2.数据处理
+    //2.找到最贵的商品价格
     import org.apache.spark.sql.functions._
-    data.select('product,'category,'revenue,dense_rank() over window as "rank")//dense_rank()是窗口函数，与SQL中的dense_rank函数功能相同
-      .where('rank <= 2)
-      .show()
+    val maxPrice: Column = max('revenue) over window
 
-    //也可以使用SQL的方式实现
-    data.createOrReplaceTempView("productRevenue")
-    spark.sql("select product,category,revenue from (select *,dense_rank() over (partition by category order by revenue desc) as rank from productRevenue) where rank <= 2")
-      .show()
+    //3.得到结果
+    data.select('product,'category,'revenue,(maxPrice - 'revenue) as "revenue_difference").show()
 
   }
 
