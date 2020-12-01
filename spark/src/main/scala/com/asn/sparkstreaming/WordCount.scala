@@ -16,6 +16,7 @@ object WordCount {
     //每三秒为一批数据，因此每次统计的都是这3秒内的数据
     val streamingContext: StreamingContext = new StreamingContext(sparkConf,Seconds(3))
 
+    //spark2.0引入了sparksession作为统一的入口，里面封装了sparkcontext，因此建议统一使用sparksession。
     val socketStreaming: ReceiverInputDStream[String] = streamingContext.socketTextStream("flink1",9999)
 
     val mapValue: DStream[(String, Int)] = socketStreaming.flatMap(line=>line.split(" ")).map(word=>(word,1))
