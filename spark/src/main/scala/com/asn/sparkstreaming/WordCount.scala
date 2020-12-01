@@ -11,12 +11,13 @@ import org.apache.spark.streaming.{Seconds, StreamingContext, dstream}
  **/
 object WordCount {
   def main(args: Array[String]): Unit = {
-    val sparkConf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("streaming-wordcount")
+    //注意：sparkstreaming必须配置至少两个线程，一个用于接收流数据，一个用于操作RDD处理数据。如果只有一个线程，则不会处理数据。
+    val sparkConf: SparkConf = new SparkConf().setMaster("local[2]").setAppName("streaming-wordcount")
 
     //每三秒为一批数据，因此每次统计的都是这3秒内的数据
     val streamingContext: StreamingContext = new StreamingContext(sparkConf,Seconds(3))
 
-    val socketStreaming: ReceiverInputDStream[String] = streamingContext.socketTextStream("flink1",9999)
+    val socketStreaming: ReceiverInputDStream[String] = streamingContext.socketTextStream("localhost",9999)
 
     val mapValue: DStream[(String, Int)] = socketStreaming.flatMap(line=>line.split(" ")).map(word=>(word,1))
 
