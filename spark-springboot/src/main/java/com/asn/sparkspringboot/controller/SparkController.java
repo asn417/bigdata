@@ -8,6 +8,8 @@ package com.asn.sparkspringboot.controller;
 import com.asn.sparkspringboot.model.SparkAppPara;
 import com.asn.sparkspringboot.service.SparkAppInfoService;
 import com.asn.sparkspringboot.service.SparkSubmitService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,7 @@ import java.io.IOException;
 
 @Controller
 public class SparkController {
-
+    private static Logger logger = LoggerFactory.getLogger(SparkController.class);
     @Autowired
     SparkSubmitService submitService;
 
@@ -71,7 +73,11 @@ public class SparkController {
     @RequestMapping("/getAllAppInfo")
     @ResponseBody
     public String getAllAppInfo(){
-        return sparkAppInfoService.getAllAppInfo();
+        logger.info("==================info");
+        logger.warn("==================warn");
+        logger.error("=================error");
+        logger.debug("=================debug");
+        return "xxxxxxxxxxxxxxx";
+        //return sparkAppInfoService.getAllAppInfo();
     }
-
 }
