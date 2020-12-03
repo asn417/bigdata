@@ -2,6 +2,7 @@ package com.asn.hdfs;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
+import org.apache.hadoop.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,11 +14,11 @@ import java.net.URISyntaxException;
 
 public class Hdfsdemo {
 
-    private FileSystem fs;
+    private FileSystem hdfs;
 
     @Before
     public void before() throws URISyntaxException, IOException, InterruptedException {
-        fs = FileSystem.get(new URI("hdfs://flink2:9000"), new Configuration(), "root");
+        hdfs = FileSystem.get(new URI("hdfs://flink1:9000"), new Configuration(), "root");
         System.out.println("before......");
     }
 
@@ -27,22 +28,22 @@ public class Hdfsdemo {
         Configuration configuration = new Configuration();
         configuration.setInt("dfs.replication",1);
         configuration.setInt("dfs.blocksize",1048576);
-        fs = FileSystem.get(new URI("hdfs://flink2:9000"), configuration, "root");
-        fs.copyFromLocalFile(new Path("d:/1.txt"),new Path("/1.txt"));
+        hdfs = FileSystem.get(new URI("hdfs://flink2:9000"), configuration, "root");
+        hdfs.copyFromLocalFile(new Path("d:/1.txt"),new Path("/1.txt"));
     }
 
     @Test
     public void delete() throws IOException {
-        fs.delete(new Path("/1.txt"),false);
+        hdfs.delete(new Path("/1.txt"),false);
     }
     @Test
     public void mkdirs() throws IOException {
-        fs.mkdirs(new Path("/asn"));
+        hdfs.mkdirs(new Path("/asn"));
     }
     @Test
     public void ls() throws IOException {
         //FileStatus包含文件夹信息
-        FileStatus[] fileStatuses = fs.listStatus(new Path("/"));
+        FileStatus[] fileStatuses = hdfs.listStatus(new Path("/"));
         for (FileStatus fileStatus:fileStatuses){
             if (fileStatus.isFile()){
                 System.out.println("这是一个文件！");
@@ -58,7 +59,7 @@ public class Hdfsdemo {
     }
     @Test
     public void listFiles() throws IOException {
-        RemoteIterator<LocatedFileStatus> files = fs.listFiles(new Path("/"), true);
+        RemoteIterator<LocatedFileStatus> files = hdfs.listFiles(new Path("/"), true);
         while (files.hasNext()){
             //LocatedFileStatus只包含文件信息，块信息
             LocatedFileStatus next = files.next();
@@ -73,8 +74,22 @@ public class Hdfsdemo {
         }
     }
 
+    @Test
+    public void append(){
+        //conf.setBoolean("dfs.support.append", true);
+        try{
+            Path input = new Path("/1.txt");
+            Path output = new Path("/1.txt");
+            FSDataInputStream in = hdfs.open(input);
+            FSDataOutputStream out = hdfs.append(output);//将input文件内容追加到output
+            IOUtils.copyBytes(in,out,4096,true);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     @After
     public void after() throws IOException {
-        fs.close();
+        hdfs.close();
     }
 }
