@@ -14,6 +14,7 @@
         <module>hadoop</module>
         <module>scala</module>
         <module>flink</module>
+        <module>kafka</module>
     </modules>
 
     <properties>
