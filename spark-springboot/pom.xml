@@ -74,7 +74,7 @@
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>kafka</artifactId>
-            <version>${bigdata.version}</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

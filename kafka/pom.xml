@@ -23,4 +23,7 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <finalName>BigData.kafka</finalName>
+    </build>
 </project>

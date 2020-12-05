@@ -1,6 +1,9 @@
 package com.asn.aop;
 
+import com.asn.producer.ProducerUtil;
 import com.asn.sparkspringboot.model.SparkAppPara;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -48,7 +51,6 @@ public class LogAspect {
     @After("cutMethod()")
     public void after() {
         System.out.println("==@After==");
-        ProducerUtil
     }
 
     /**
@@ -73,6 +75,16 @@ public class LogAspect {
 
         String topic = annotation.topic();
         System.out.println("==@Around== --》topic " + topic);
+
+        KafkaProducer<String, String> producer = ProducerUtil.getInstance();
+
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),"message_key","message_value");
+        try {
+            producer.send(record);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
         if (topic.equals("test")){
             // 执行被切入的方法，这里可以修改方法参数params，重新传入即可：proceed(params)
             joinPoint.proceed();
