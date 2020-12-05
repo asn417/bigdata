@@ -1,4 +1,4 @@
-package com.asn.sparkspringboot;
+package com.asn;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

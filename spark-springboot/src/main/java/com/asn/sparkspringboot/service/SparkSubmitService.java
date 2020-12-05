@@ -18,6 +18,9 @@ import java.util.concurrent.CountDownLatch;
 public class SparkSubmitService {
 
     public String submitApp(SparkAppPara sparkAppPara) throws IOException, InterruptedException {
+        if (null==sparkAppPara || "".equals(sparkAppPara)){
+            return "param is empty";
+        }
         CountDownLatch countDownLatch = new CountDownLatch(1);
         SparkLauncher launcher = new SparkLauncher()
                 .setSparkHome("/opt/bigdata/spark-3.0.0-bin-hadoop3.2")

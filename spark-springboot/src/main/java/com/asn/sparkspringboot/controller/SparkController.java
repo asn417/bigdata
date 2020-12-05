@@ -5,6 +5,7 @@ package com.asn.sparkspringboot.controller;
  * @Date: 2020/11/21 11:03
  * @Description:
  **/
+import com.asn.aop.LogToKafka;
 import com.asn.sparkspringboot.model.SparkAppPara;
 import com.asn.sparkspringboot.service.SparkAppInfoService;
 import com.asn.sparkspringboot.service.SparkSubmitService;
@@ -79,5 +80,13 @@ public class SparkController {
         logger.debug("=================debug");
         return "xxxxxxxxxxxxxxx";
         //return sparkAppInfoService.getAllAppInfo();
+    }
+
+    @RequestMapping("/testLogToKafka")
+    @ResponseBody
+    @LogToKafka(topic = "topic1")
+    public String testLogToKafka(String topic){
+        System.out.println("args: "+topic);
+        return topic;
     }
 }
