@@ -7,9 +7,52 @@
         <groupId>org.example</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <artifactId>flink</artifactId>
+    <groupId>org.example</groupId>
+    <version>1.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>flink</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-java</artifactId>
+            <!--			<scope>provided</scope>&lt;!&ndash;idea本地调试代码时需要注释掉，否则报找不到或无法加载主类&ndash;&gt;-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
+            <!--			<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka_2.12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-api-java-bridge_2.12</artifactId>
+            <!--            <scope>provided</scope>-->
+        </dependency>
+        <!-- if you want to run the Table API & SQL programs locally within your IDE, you must add one of the following set of modules-->
+        <!-- Either... (for the old planner that was available before Flink 1.9) -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner_2.12</artifactId>
+            <!--            <scope>provided</scope>-->
+        </dependency>
+        <!-- or.. (for the new Blink planner) -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner-blink_2.12</artifactId>
+            <!--            <scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-common</artifactId>
+            <!--            <scope>provided</scope>-->
+        </dependency>
+    </dependencies>
 
 
 </project>

@@ -23,6 +23,7 @@
         </dependency>
     </dependencies>
 
+    <!--指定打jar包的名称，默认的jar包名称由“groupId-version”组成-->
     <build>
         <finalName>BigData.kafka</finalName>
     </build>
