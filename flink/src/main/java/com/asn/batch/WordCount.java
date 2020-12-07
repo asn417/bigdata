@@ -1,6 +1,7 @@
 package com.asn.batch;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.operators.AggregateOperator;
@@ -38,5 +39,4 @@ public class WordCount {
             }
         }
     }
-
 }

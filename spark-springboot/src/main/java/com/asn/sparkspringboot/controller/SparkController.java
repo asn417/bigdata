@@ -84,7 +84,7 @@ public class SparkController {
 
     @RequestMapping("/testLogToKafka")
     @ResponseBody
-    @LogToKafka(topic = "topic1")
+    @LogToKafka(topic = "test-group")
     public String testLogToKafka(String topic){
         System.out.println("args: "+topic);
         return topic;
