@@ -17,6 +17,9 @@ import java.util.concurrent.CountDownLatch;
 @Service
 public class SparkSubmitService {
 
+    public SparkSubmitService(){
+
+    }
     public String submitApp(SparkAppPara sparkAppPara) throws IOException, InterruptedException {
         if (null==sparkAppPara || "".equals(sparkAppPara)){
             return "param is empty";
