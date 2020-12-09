@@ -7,12 +7,14 @@ package com.asn.sparkspringboot.controller;
  **/
 import com.asn.aop.LogToKafka;
 import com.asn.config.ConfigTest;
+import com.asn.config.Dog;
 import com.asn.sparkspringboot.model.SparkAppPara;
 import com.asn.sparkspringboot.service.SparkAppInfoService;
 import com.asn.sparkspringboot.service.SparkSubmitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,12 @@ public class SparkController {
 
     @Autowired
     private ConfigTest configTest;
+
+    @Autowired
+    private Dog dog;
+
+    @Autowired
+    private ApplicationContext ioc;
 
     @RequestMapping("/appInfo")
     public String appInfo(){
@@ -82,6 +90,9 @@ public class SparkController {
         logger.warn("==================warn");
         logger.error("=================error");
         logger.debug("=================debug");
+        logger.error("======="+dog.toString());
+        logger.error("========"+ioc.containsBean("dog1"));
+        logger.error("========"+ioc.containsBean("dog"));
         return configTest.toString();
         //return sparkAppInfoService.getAllAppInfo();
     }
