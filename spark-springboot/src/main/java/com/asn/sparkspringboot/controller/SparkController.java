@@ -6,6 +6,7 @@ package com.asn.sparkspringboot.controller;
  * @Description:
  **/
 import com.asn.aop.LogToKafka;
+import com.asn.config.ConfigTest;
 import com.asn.sparkspringboot.model.SparkAppPara;
 import com.asn.sparkspringboot.service.SparkAppInfoService;
 import com.asn.sparkspringboot.service.SparkSubmitService;
@@ -28,6 +29,9 @@ public class SparkController {
 
     @Autowired
     SparkAppInfoService sparkAppInfoService;
+
+    @Autowired
+    private ConfigTest configTest;
 
     @RequestMapping("/appInfo")
     public String appInfo(){
@@ -78,7 +82,7 @@ public class SparkController {
         logger.warn("==================warn");
         logger.error("=================error");
         logger.debug("=================debug");
-        return "xxxxxxxxxxxxxxx";
+        return configTest.toString();
         //return sparkAppInfoService.getAllAppInfo();
     }
 
