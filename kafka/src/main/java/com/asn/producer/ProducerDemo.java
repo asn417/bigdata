@@ -1,11 +1,16 @@
 package com.asn.producer;
 
+import com.asn.message.MessageVo;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 /**
  * @Author: wangsen
@@ -33,20 +38,33 @@ public class ProducerDemo {
     static {
         kafkaProps.put("bootstrap.servers", "flink1:9092,flink2:9092,flink3:9092");
         kafkaProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        kafkaProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        kafkaProps.put("value.serializer", "com.asn.serializer.MessageSerializer");
+
+        //Set acknowledgements for producer requests.
+        kafkaProps.put("acks", "all");
+        //If the request fails, the producer can automatically retry,
+        kafkaProps.put("retries", 0);
+        kafkaProps.put("metadata.fetch.timeout.ms", 30000);
+        //Specify buffer size in config
+        kafkaProps.put("batch.size", 16384);
+        //Reduce the no of requests less than 0
+        kafkaProps.put("linger.ms", 1);
+        //The buffer.memory controls the total amount of memory available to the producer for buffering.
+        kafkaProps.put("buffer.memory", 33554432);
     }
 
     public static void main(String[] args) {
         KafkaProducer<String, String> producer = new KafkaProducer(kafkaProps);
-        ProducerRecord<String, String> record = new ProducerRecord<>("test","message_key","message_value");
+        //ProducerRecord<String, String> record = new ProducerRecord<>("test","message_key","message_value");
+        //ProducerRecord<String, String> recordWithCreateTime = new ProducerRecord<>("test",null,System.currentTimeMillis(),"message_key","message_value");
+        for (int i = 0; i < 20; i++) {
+            MessageVo messageVo = new MessageVo(i, String.valueOf(new Random().nextInt(10)), LocalDateTime.now());
+            ProducerRecord<String, Object> record = new ProducerRecord<>("test",messageVo);
+            simpleSend(producer, record);
+            //sync(producer, record);
+            //aync(producer, record);
 
-        ProducerRecord<String, String> recordWithCreateTime = new ProducerRecord<>("test",null,System.currentTimeMillis(),"message_key","message_value");
-
-        simpleSend(producer, record);
-
-        sync(producer, record);
-
-        aync(producer, record);
+        }
     }
     /***
      * @Author: wangsen
@@ -89,7 +107,7 @@ public class ProducerDemo {
         try {
             producer.send(record, new DemonProducerCallback());
             while (true){
-                Thread.sleep(10 * 1000);
+                Thread.sleep( 1000);
             }
         } catch(Exception e){
             e.printStackTrace();
