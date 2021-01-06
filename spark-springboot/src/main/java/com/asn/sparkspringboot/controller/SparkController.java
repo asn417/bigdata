@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 @Controller
@@ -38,6 +39,8 @@ public class SparkController {
     @Autowired
     private Dog dog;
 
+    @Resource(name = "dog2")
+    private Dog dog2;
     @Autowired
     private ApplicationContext ioc;
 
@@ -91,8 +94,9 @@ public class SparkController {
         logger.error("=================error");
         logger.debug("=================debug");
         logger.error("======="+dog.toString());
-        logger.error("========"+ioc.containsBean("dog1"));
-        logger.error("========"+ioc.containsBean("dog"));
+        logger.error("======="+dog2.toString());
+        logger.error("========"+ioc.getBean("dog"));
+        logger.error("========"+ioc.getBean("dog2"));
         return configTest.toString();
         //return sparkAppInfoService.getAllAppInfo();
     }

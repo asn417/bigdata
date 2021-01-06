@@ -8,7 +8,9 @@ public class Dog {
         this.dogName = dogName;
         this.dogAge = dogAge;
     }
+    public Dog(){
 
+    }
     public String getDogName() {
         return dogName;
     }
