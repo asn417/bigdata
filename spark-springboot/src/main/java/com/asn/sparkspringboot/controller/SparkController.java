@@ -8,6 +8,7 @@ package com.asn.sparkspringboot.controller;
 import com.asn.aop.LogToKafka;
 import com.asn.config.ConfigTest;
 import com.asn.config.Dog;
+import com.asn.producer.ProducerUtilConf;
 import com.asn.sparkspringboot.model.SparkAppPara;
 import com.asn.sparkspringboot.service.SparkAppInfoService;
 import com.asn.sparkspringboot.service.SparkSubmitService;
@@ -43,6 +44,9 @@ public class SparkController {
     private Dog dog2;
     @Autowired
     private ApplicationContext ioc;
+
+    @Resource
+    private ProducerUtilConf producerUtilConf;
 
     @RequestMapping("/appInfo")
     public String appInfo(){
@@ -97,6 +101,9 @@ public class SparkController {
         logger.error("======="+dog2.toString());
         logger.error("========"+ioc.getBean("dog"));
         logger.error("========"+ioc.getBean("dog2"));
+        logger.error("producerUtilConf=>"+producerUtilConf);
+        logger.error("producerUtilConf.getServers=>"+producerUtilConf.getServers());
+        logger.error("producerUtilConf.getInstance=>"+producerUtilConf.getInstance());
         return configTest.toString();
         //return sparkAppInfoService.getAllAppInfo();
     }

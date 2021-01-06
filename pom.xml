@@ -160,7 +160,22 @@
                 <artifactId>hbase-mapreduce</artifactId>
                 <version>2.1.6</version>
             </dependency>
-
+            <!-- springboot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>2.2.10.RELEASE</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
