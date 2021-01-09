@@ -8,7 +8,8 @@ class WordCountService extends TService{
   private val wordcountDao = new WordCountDao
 
   def dataAnalysis():Array[(String, Int)]={
-    val lines: RDD[String] = wordcountDao.readFile("spark\\src\\main\\resources\\data\\word.txt")
+    //val lines: RDD[String] = wordcountDao.readFile("spark\\src\\main\\resources\\data\\word.txt")
+    val lines: RDD[String] = wordcountDao.readFile("hdfs://flink1:9000/input")
 
     val words: RDD[String] = lines.flatMap(_.split(" "))
 
