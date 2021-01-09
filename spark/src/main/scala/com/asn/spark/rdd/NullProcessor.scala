@@ -1,4 +1,4 @@
-package com.asn.spark.demo
+package com.asn.spark.rdd
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.types.{DoubleType, IntegerType, LongType, StringType, StructField, StructType}
