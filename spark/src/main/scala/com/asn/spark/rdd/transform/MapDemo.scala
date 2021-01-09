@@ -1,7 +1,7 @@
-package com.asn.spark.rdd
+package com.asn.spark.rdd.transform
 
-import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
  * @Author: wangsen
