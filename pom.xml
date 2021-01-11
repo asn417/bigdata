@@ -84,6 +84,7 @@
                 <version>${spark.version}</version>
             </dependency>
             <!-- 引入hive-exec依赖 -->
+            <!-- 这个依赖会导致冲突 -->
             <dependency>
                 <groupId>org.apache.hive</groupId>
                 <artifactId>hive-exec</artifactId>
