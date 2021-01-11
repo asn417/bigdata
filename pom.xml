@@ -27,6 +27,7 @@
         <kafka.version>2.3.0</kafka.version>
         <java.version>1.8</java.version>
         <scala.binary.version>2.12</scala.binary.version>
+        <springboot.version>2.2.10.RELEASE</springboot.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -63,6 +64,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- 工具类 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.67</version>
+            </dependency>
+
             <!-- spark依赖 -->
             <!-- 引入spark核心组件 -->
             <dependency>
@@ -158,13 +166,14 @@
             <dependency>
                 <groupId>org.apache.hbase</groupId>
                 <artifactId>hbase-mapreduce</artifactId>
-                <version>2.1.6</version>
+                <version>${hbase.version}</version>
             </dependency>
+
             <!-- springboot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
-                <version>2.2.10.RELEASE</version>
+                <version>${springboot.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework.boot</groupId>
