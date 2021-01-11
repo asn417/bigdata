@@ -27,15 +27,20 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.12</artifactId>
         </dependency>
-        <!-- 引入sparkSQL依赖 -->
+        <!-- 引入spark-hive依赖 -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_2.12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-exec</artifactId>
         </dependency>
         <!-- 引入spark streaming :注意，打包的时候要provided，因为安装的spark已经有这个jar包-->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming_2.12</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- 引入spark streaming kafka依赖 -->
         <dependency>
@@ -76,21 +81,23 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
-                    <skip>true</skip>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

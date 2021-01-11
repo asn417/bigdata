@@ -17,6 +17,8 @@ object SparkSqlHive {
       .enableHiveSupport()
       .getOrCreate()
 
+    spark.sql("show tables").show();
+
     val schema = StructType(
       List(
         StructField("name",StringType),

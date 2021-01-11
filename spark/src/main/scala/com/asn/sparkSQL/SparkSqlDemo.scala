@@ -4,6 +4,8 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 /**
  * sparkSQL是作用在视图上的，视图可以从dataframe或dataset直接创建，也可以直接读取hive元数据操作hive表
+ *
+ * sparkSession底层封装了sparkcontext和hivecontext
  */
 object SparkSqlDemo {
   def main(args: Array[String]): Unit = {
@@ -17,7 +19,12 @@ object SparkSqlDemo {
       a.getAs[String]("subject"),
       a.getAs[Long]("grade")))
 
-    //创建临时视图
+    //转换成DSL
+    dfSG.select("name","subject").show()
+    dfSG.select($"grade" + 1,$"name").show()
+    dfSG.select('name,'grade + 1).show()
+
+    //转换成table，创建临时视图
     dfSG.createOrReplaceTempView("sg_df")
     dsSG.createOrReplaceTempView("sg_ds")
 
