@@ -3,13 +3,14 @@
  * @Date: 2020/11/13 14:10
  * @Description:
  **/
-//object 声明的对象为伴生对象，模拟java中的静态对象，可以直接通过伴生对象的名字调用其内部的方法
+//object 声明的对象为伴生对象(编译后会而外产生一个后缀为$的class文件，即为伴生对象)，模拟java中的静态对象，可以直接通过伴生对象的名字调用其内部的方法和属性
 //主方法必须定义在伴生对象中才能运行
 object HelloWorld {
   //scala中定义变量必须显式初始化值，_代表对应类型的默认值
   //一个语句结尾可以不加;，但如果多条语句写在一行的时候，中间必须用;隔开
   var name:String=_
   var age: Int = _
+  //main方法编译后会自动编译成public static void main
   def main(args: Array[String]): Unit = {
     //变量
     var myVar:String ="asn"
