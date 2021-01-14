@@ -1,3 +1,5 @@
+import scala.util.control.Breaks
+
 /**
  * @Author: wangsen
  * @Date: 2020/11/13 14:10
@@ -14,12 +16,13 @@ object HelloWorld {
   def main(args: Array[String]): Unit = {
     //变量
     var myVar:String ="asn"
-    //常量
+    //常量：不能修改
     val myVal:String ="aaa"
     //插值字符串
     var s=s"${myVar}---${myVal}"
     println(s)
     println(s"myVar=${myVar},myVal=${myVal}")
+    //格式化输出
     printf("myVar=%s,myVal=%s",myVar,myVal)
 
     //使用object声明的伴生对象类似于java中的静态对象，可以直接调用其内部的方法
