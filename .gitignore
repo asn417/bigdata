@@ -33,3 +33,9 @@ src/test/
 /spark-springboot/mvnw.cmd
 
 ./spark/spark.iml
+flink/target/*
+hadoop/target/*
+kafka/target/*
+scala/target/*
+spark-springboot/target/*
+spark/target/*
