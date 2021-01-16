@@ -39,3 +39,5 @@ kafka/target/*
 scala/target/*
 spark-springboot/target/*
 spark/target/*
+spark/spark.iml
+
