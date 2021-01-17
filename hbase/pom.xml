@@ -6,30 +6,41 @@
         <artifactId>bigdata</artifactId>
         <groupId>org.example</groupId>
         <version>1.0.0</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>kafka</artifactId>
-    <version>${bigdata.version}</version>
-    <packaging>jar</packaging>
+    <artifactId>hbase</artifactId>
+    <version>${project.version}</version>
 
+    <properties>
+        <hbase.version>2.1.0</hbase.version>
+    </properties>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+
         <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>2.2.0</version>
+            <artifactId>common</artifactId>
+            <groupId>org.example</groupId>
+            <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+            <version>${hbase.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
     </dependencies>
 
-    <!--指定打jar包的名称，默认的jar包名称由“groupId-version”组成-->
-    <build>
-        <finalName>BigData.kafka</finalName>
-    </build>
 </project>

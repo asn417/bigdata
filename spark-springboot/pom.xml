@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>bigdata</artifactId>
+        <groupId>org.example</groupId>
+        <version>1.0.0</version>
     </parent>
+
     <groupId>com.asn</groupId>
     <artifactId>spark-springboot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${bigdata.version}</version>
     <name>spark-springboot</name>
     <description>Demo project for Spring Boot</description>
 
@@ -19,24 +19,28 @@
     </properties>
 
     <dependencies>
+
         <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>kafka</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <!-- AOP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- 使用jetty启动，不引人这个启动会报错：Unable to start ServletWebServerApplicationContext due to missing ServletWeb-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <exclusions>
-                <!-- 排除掉spring-boot-starter自带的logback日志框架 -->
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- 引入log4j2日志框架 -->
         <dependency>
@@ -48,11 +52,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <groupId>org.example</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-launcher_2.12</artifactId>
@@ -73,17 +80,8 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.3.2</version>
         </dependency>
-        <!-- AOP -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>kafka</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+
     </dependencies>
 
     <build>
