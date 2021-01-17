@@ -102,6 +102,9 @@ public class HBaseUtils {
             e.printStackTrace();
         }
     }
+    public static Admin getAdmin(){
+        return admin;
+    }
     /**
      * @Author: wangsen
      * @Description: 关闭连接池
