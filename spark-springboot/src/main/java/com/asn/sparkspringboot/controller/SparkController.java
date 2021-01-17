@@ -8,10 +8,13 @@ package com.asn.sparkspringboot.controller;
 import com.asn.aop.LogToKafka;
 import com.asn.config.ConfigTest;
 import com.asn.config.Dog;
+import com.asn.hbase.config.HBaseConfig;
+import com.asn.hbase.utils.HBaseUtils;
 import com.asn.producer.ProducerUtilConf;
 import com.asn.sparkspringboot.model.SparkAppPara;
 import com.asn.sparkspringboot.service.SparkAppInfoService;
 import com.asn.sparkspringboot.service.SparkSubmitService;
+import org.apache.hadoop.hbase.client.RegionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +23,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 
-@Controller
+@RestController
 public class SparkController {
     private static Logger logger = LoggerFactory.getLogger(SparkController.class);
     @Autowired
@@ -44,9 +48,18 @@ public class SparkController {
     private Dog dog2;
     @Autowired
     private ApplicationContext ioc;
-
     @Resource
     private ProducerUtilConf producerUtilConf;
+    @Autowired
+    private HBaseConfig hBaseConfig;
+
+    @RequestMapping("/hbase")
+    public String hbase(){
+        System.out.println(hBaseConfig);
+        HBaseUtils.getInstance(hBaseConfig);
+        RegionInfo regionInfo = HBaseUtils.getRegionInfo("mydb:test");
+        return regionInfo.getRegionNameAsString();
+    }
 
     @RequestMapping("/appInfo")
     public String appInfo(){

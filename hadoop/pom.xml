@@ -9,7 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.example</groupId>
     <artifactId>hadoop</artifactId>
+    <version>${project.version}</version>
 
     <dependencies>
         <dependency>

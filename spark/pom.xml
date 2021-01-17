@@ -8,8 +8,10 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>org.example</groupId>
     <artifactId>spark</artifactId>
+    <version>${project.version}</version>
+
     <dependencies>
         <dependency>
             <!-- :注意，打包的时候要provided，因为安装的spark已经有这个jar包 -->

@@ -12,21 +12,21 @@ import org.springframework.stereotype.Component;
 @Component
 @Configuration
 public class HBaseConfig {
-    @Value("${hadoop.home.dir}")
+    @Value("${hadoop.home.dir:xxx}")
     String hadoop_home_dir;
-    @Value("${hbase.zookeeper.quorum}")
+    @Value("${hbase.zookeeper.quorum:flink1,flink2,flink3}")
     String hbase_zk_quorm;
-    @Value("${hbase.master}")
+    @Value("${hbase.master:flink1}")
     String hbase_master;
-    @Value("${hbase.zookeeper.property.clientPort}")
+    @Value("${hbase.zookeeper.property.clientPort:2181}")
     String zk_clientport;
-    @Value("${hbase.rpc.timeout}")
+    @Value("${hbase.rpc.timeout:60000}")
     int hbase_rpc_timeout;
-    @Value("${hbase.client.retries.number}")
+    @Value("${hbase.client.retries.number:10}")
     int client_retries_number;
-    @Value("${hbase.client.operation.timeout}")
+    @Value("${hbase.client.operation.timeout:20000}")
     int client_operation_timeout;
-    @Value("${hbase.client.scanner.timeout.period}")
+    @Value("${hbase.client.scanner.timeout.period:20000}")
     int scanner_timeout_period;
 
     public String getHadoop_home_dir() {

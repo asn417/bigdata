@@ -10,7 +10,7 @@
 
     <groupId>com.asn</groupId>
     <artifactId>spark-springboot</artifactId>
-    <version>${bigdata.version}</version>
+    <version>${project.version}</version>
     <name>spark-springboot</name>
     <description>Demo project for Spring Boot</description>
 
@@ -58,6 +58,16 @@
             <groupId>org.example</groupId>
             <artifactId>kafka</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>hbase</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
         </dependency>
 
         <dependency>
