@@ -4,10 +4,7 @@ import com.asn.message.MessageVo;
 import org.apache.kafka.clients.producer.*;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @Author: wangsen
@@ -49,6 +46,12 @@ public class ProducerDemo {
     }
 
     public static void main(String[] args) {
+        List<String> interceptors = new ArrayList<>();
+        interceptors.add("com.asn.interceptor.TimeInterceptor");
+        interceptors.add("com.asn.interceptor.CounterInterceptor");
+        //添加拦截器
+        kafkaProps.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG,interceptors);
+
         KafkaProducer<String, String> producer = new KafkaProducer(kafkaProps);
         //ProducerRecord<String, String> record = new ProducerRecord<>("test","message_key","message_value");
         //ProducerRecord<String, String> recordWithCreateTime = new ProducerRecord<>("test",null,System.currentTimeMillis(),"message_key","message_value");
@@ -60,6 +63,7 @@ public class ProducerDemo {
             //aync(producer, record);
 
         }
+        producer.close();
     }
     /***
      * @Author: wangsen
