@@ -71,13 +71,14 @@
     <dependencyManagement>
         <dependencies>
             <!-- springboot -->
-            <!-- 框架级Begin -->
             <!-- springboot dependencies -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
+                <!-- type标签默认是jar，pom是把spring-boot-dependencies引入为pom文件 -->
                 <type>pom</type>
+                <!-- <scope>import</scope>解决单继承问题，类似parent标签，把spring-boot-dependencies引入到dependencyManagement -->
                 <scope>import</scope>
             </dependency>
             <!--引入这个依赖才能使用@RequestMapping注解-->
