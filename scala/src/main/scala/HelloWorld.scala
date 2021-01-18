@@ -1,9 +1,7 @@
-import scala.util.control.Breaks
-
 /**
  * @Author: wangsen
  * @Date: 2020/11/13 14:10
- * @Description:
+ * @Description: Scala中文开发文档： https://docs.scala-lang.org/zh-cn/tour/case-classes.html
  **/
 //object 声明的对象为伴生对象(编译后会而外产生一个后缀为$的class文件，即为伴生对象)，模拟java中的静态对象，可以直接通过伴生对象的名字调用其内部的方法和属性
 //主方法必须定义在伴生对象中才能运行

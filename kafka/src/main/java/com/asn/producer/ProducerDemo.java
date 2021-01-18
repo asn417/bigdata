@@ -1,10 +1,7 @@
 package com.asn.producer;
 
 import com.asn.message.MessageVo;
-import org.apache.kafka.clients.producer.Callback;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.clients.producer.*;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -27,7 +24,7 @@ import java.util.Random;
  *  另外， producer在创建ProducerRecord时可以指定时间戳:
  *  record = new ProducerRecord<String, String>("my-topic", null, System.currentTimeMillis(), "key", "value");
  *
- *  send是异步的，会返回一个Future用于阻塞RecordMetadata的获取，通过调用send(record).get()方法实现阻塞。
+ *  send是异步的，会返回一个Future用于阻塞RecordMetadata的获取，通过调用send(record).get()方法实现阻塞同步发送。
  *
  *  要想完全非阻塞，则可以使用Callback参数来提供一个回调函数，当请求完成时将调用该回调。同一个分区中的消息如何使用了多个回调函数，那么这些回调函数会按顺序依次执行。
  *  当在事务中使用时，不必定义callback函数或通过future获取结果来检查send是否失败。因为一旦有消息发送失败，就会调用final中的commitTransaction函数来抛出异常。这时候需要你调用abortTransaction来重置消息状态并继续发送消息。
@@ -36,21 +33,19 @@ import java.util.Random;
 public class ProducerDemo {
     private static Properties kafkaProps = new Properties();
     static {
-        kafkaProps.put("bootstrap.servers", "flink1:9092,flink2:9092,flink3:9092");
-        kafkaProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        kafkaProps.put("value.serializer", "com.asn.serializer.MessageSerializer");
-
+        kafkaProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "flink1:9092,flink2:9092,flink3:9092");
+        kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        kafkaProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "com.asn.serializer.MessageSerializer");
         //Set acknowledgements for producer requests.
-        kafkaProps.put("acks", "all");
+        kafkaProps.put(ProducerConfig.ACKS_CONFIG, "all");
         //If the request fails, the producer can automatically retry,
-        kafkaProps.put("retries", 0);
-        kafkaProps.put("metadata.fetch.timeout.ms", 30000);
-        //Specify buffer size in config
-        kafkaProps.put("batch.size", 16384);
-        //Reduce the no of requests less than 0
-        kafkaProps.put("linger.ms", 1);
+        kafkaProps.put(ProducerConfig.RETRIES_CONFIG, 0);
+        //数据达到batch.size才会发送
+        kafkaProps.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
+        //发送的时间间隔，linger.ms和batch.size只要有一个满足就会发送消息
+        kafkaProps.put(ProducerConfig.LINGER_MS_CONFIG, 1);
         //The buffer.memory controls the total amount of memory available to the producer for buffering.
-        kafkaProps.put("buffer.memory", 33554432);
+        kafkaProps.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
     }
 
     public static void main(String[] args) {
@@ -82,7 +77,8 @@ public class ProducerDemo {
     }
 
     /**
-     * 同步发送
+     * 同步发送：一条消息发送后会阻塞当前线程，直到返回ack。
+     *
      * @param producer
      * @param record
      */
@@ -106,9 +102,6 @@ public class ProducerDemo {
     public static void aync(KafkaProducer producer, ProducerRecord record){
         try {
             producer.send(record, new DemonProducerCallback());
-            while (true){
-                Thread.sleep( 1000);
-            }
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -116,14 +109,13 @@ public class ProducerDemo {
 
     /***
      * @Author: wangsen
-     * @Description: 回调函数
-     * @Date: 2020/12/5
-     * @Param:
-     * @Return:
+     * @Description: 回调函数：回调函数会在producer收到ack时调用，为异步调用。
+     *  如果消息发送失败，则会自动重试，无需再回调函数中手动处理。
      **/
     private static class DemonProducerCallback implements Callback {
         @Override
         public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+            //如果exception不为null，说明消息发送失败
             if (null != e){
                 e.printStackTrace();
             }else{

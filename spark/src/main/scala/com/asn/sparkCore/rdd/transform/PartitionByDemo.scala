@@ -5,6 +5,7 @@ import org.apache.spark.{HashPartitioner, SparkConf, SparkContext}
 
 /*
 partitionBy算子能够指定分区器对数据进行重分区。默认的分区器是HashPartitioner。
+partitionBy 只能用于 PairRDD
  */
 object PartitionByDemo {
 
