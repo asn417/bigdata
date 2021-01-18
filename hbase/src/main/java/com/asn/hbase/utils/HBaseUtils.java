@@ -1,9 +1,9 @@
 package com.asn.hbase.utils;
 
+import asn.utils.ObjectUtils;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.asn.hbase.config.HBaseConfig;
-import com.asn.utils.ObjectUtils;
 import com.google.common.collect.Iterables;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
@@ -368,7 +368,7 @@ public class HBaseUtils {
                     put.setDurability(Durability.SKIP_WAL); // 不写WAL日志
                     for (Map.Entry<String,Object> entry : map.entrySet()){
                         if (entry.getKey() != "rowkey"){
-                            put.addColumn(Bytes.toBytes(columnFamily),Bytes.toBytes(entry.getKey()),ObjectUtils.toByteArray(entry.getValue()));
+                            put.addColumn(Bytes.toBytes(columnFamily),Bytes.toBytes(entry.getKey()), ObjectUtils.toByteArray(entry.getValue()));
                         }
                         puts.add(put);
                     }
