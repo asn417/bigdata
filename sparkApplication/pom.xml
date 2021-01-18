@@ -9,10 +9,9 @@
     </parent>
 
     <groupId>com.asn</groupId>
-    <artifactId>spark-springboot</artifactId>
+    <artifactId>sparkApplication</artifactId>
     <version>${project.version}</version>
-    <name>spark-springboot</name>
-    <description>Demo project for Spring Boot</description>
+    <name>sparkApplication</name>
 
     <properties>
         <java.version>1.8</java.version>

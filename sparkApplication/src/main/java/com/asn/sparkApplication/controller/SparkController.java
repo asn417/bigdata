@@ -1,4 +1,4 @@
-package com.asn.sparkspringboot.controller;
+package com.asn.sparkApplication.controller;
 
 /**
  * @Author: wangsen
@@ -12,16 +12,15 @@ import com.asn.hbase.config.HBaseConfig;
 import com.asn.hbase.utils.HBaseUtils;
 import com.asn.json.model.BaseJSONVo;
 import com.asn.producer.ProducerUtilConf;
-import com.asn.sparkspringboot.model.SparkAppPara;
-import com.asn.sparkspringboot.service.SparkAppInfoService;
-import com.asn.sparkspringboot.service.SparkSubmitService;
+import com.asn.sparkApplication.model.SparkAppPara;
+import com.asn.sparkApplication.service.SparkAppInfoService;
+import com.asn.sparkApplication.service.SparkSubmitService;
 import com.asn.utils.REJSONUtils;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

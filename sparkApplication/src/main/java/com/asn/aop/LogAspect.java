@@ -1,7 +1,6 @@
 package com.asn.aop;
 
 import com.asn.producer.ProducerUtil;
-import com.asn.sparkspringboot.model.SparkAppPara;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.aspectj.lang.ProceedingJoinPoint;

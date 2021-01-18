@@ -1,4 +1,4 @@
-package com.asn.sparkspringboot.util;
+package com.asn.sparkApplication.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

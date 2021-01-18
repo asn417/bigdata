@@ -1,8 +1,8 @@
-package com.asn.sparkspringboot.service;
+package com.asn.sparkApplication.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.asn.sparkspringboot.mapper.AppInfoMapper;
-import com.asn.sparkspringboot.model.AppInfo;
+import com.asn.sparkApplication.mapper.AppInfoMapper;
+import com.asn.sparkApplication.model.AppInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
