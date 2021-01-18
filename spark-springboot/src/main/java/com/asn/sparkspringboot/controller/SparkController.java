@@ -10,10 +10,12 @@ import com.asn.config.ConfigTest;
 import com.asn.config.Dog;
 import com.asn.hbase.config.HBaseConfig;
 import com.asn.hbase.utils.HBaseUtils;
+import com.asn.json.model.BaseJSONVo;
 import com.asn.producer.ProducerUtilConf;
 import com.asn.sparkspringboot.model.SparkAppPara;
 import com.asn.sparkspringboot.service.SparkAppInfoService;
 import com.asn.sparkspringboot.service.SparkSubmitService;
+import com.asn.utils.REJSONUtils;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,11 +56,11 @@ public class SparkController {
     private HBaseConfig hBaseConfig;
 
     @RequestMapping("/hbase")
-    public String hbase(){
+    public BaseJSONVo hbase(){
         System.out.println(hBaseConfig);
         HBaseUtils.getInstance(hBaseConfig);
         RegionInfo regionInfo = HBaseUtils.getRegionInfo("mydb:test");
-        return regionInfo.getRegionNameAsString();
+        return REJSONUtils.success(regionInfo.getRegionNameAsString(),"");
     }
 
     @RequestMapping("/appInfo")
