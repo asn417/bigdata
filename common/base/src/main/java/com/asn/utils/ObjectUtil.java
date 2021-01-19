@@ -17,8 +17,8 @@ import java.util.function.Consumer;
  * @Date: 2021/1/17 19:02
  * @Description:
  **/
-public class ObjectUtils {
-    private static final Logger logger = LoggerFactory.getLogger(ObjectUtils.class);
+public class ObjectUtil {
+    private static final Logger logger = LoggerFactory.getLogger(ObjectUtil.class);
 
     /**
      * 反射获取对象的属性值

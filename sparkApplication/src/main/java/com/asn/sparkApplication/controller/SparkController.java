@@ -6,12 +6,12 @@ package com.asn.sparkApplication.controller;
  * @Description:
  **/
 import com.asn.json.model.BaseJSONVo;
-import com.asn.utils.REJSONUtils;
+import com.asn.utils.REJSONUtil;
 import com.asn.aop.LogToKafka;
 import com.asn.config.ConfigTest;
 import com.asn.config.Dog;
 import com.asn.hbase.config.HBaseConfig;
-import com.asn.hbase.utils.HBaseUtils;
+import com.asn.hbase.utils.HBaseUtil;
 import com.asn.producer.ProducerUtilConf;
 import com.asn.sparkApplication.model.SparkAppPara;
 import com.asn.sparkApplication.service.SparkAppInfoService;
@@ -58,15 +58,15 @@ public class SparkController {
     @RequestMapping("/hbase")
     public BaseJSONVo hbase(){
         System.out.println(hBaseConfig);
-        HBaseUtils.getInstance(hBaseConfig);
-        RegionInfo regionInfo = HBaseUtils.getRegionInfo("mydb:test");
+        HBaseUtil.getInstance(hBaseConfig);
+        RegionInfo regionInfo = HBaseUtil.getRegionInfo("mydb:test");
         String appName = SpringContextUtil.getAppName();
         System.out.println("appName: "+appName);
         String contextName = SpringContextUtil.getContextName();
         System.out.println("contextName: "+appName);
         Dog dog = (Dog)SpringContextUtil.getBean("dog");
         System.out.println(dog);
-        return REJSONUtils.success(regionInfo.getRegionNameAsString(),"");
+        return REJSONUtil.success(regionInfo.getRegionNameAsString(),"");
     }
 
     @RequestMapping("/appInfo")

@@ -1,6 +1,6 @@
 package com.asn.hbase.utils;
 
-import com.asn.utils.ObjectUtils;
+import com.asn.utils.ObjectUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.asn.hbase.config.HBaseConfig;
@@ -22,13 +22,13 @@ import java.util.*;
  * @Date: 2021/1/17 18:48
  * @Description:
  **/
-public class HBaseUtils {
+public class HBaseUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(HBaseUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(HBaseUtil.class);
 
     private static Connection connection;
     private static Configuration configuration;
-    private static HBaseUtils hBaseUtils;
+    private static HBaseUtil hBaseUtil;
     private static Properties properties;
     private static Admin admin;
 
@@ -39,7 +39,7 @@ public class HBaseUtils {
      * @Param:
      * @Return:
      **/
-    private HBaseUtils() {
+    private HBaseUtil() {
     }
     /**
      * @Author: wangsen
@@ -48,16 +48,16 @@ public class HBaseUtils {
      * @Param:
      * @Return:
      **/
-    public static HBaseUtils getInstance(HBaseConfig hBaseConfig) {
-        if (hBaseUtils == null) {
-            synchronized (HBaseUtils.class) {
-                if (hBaseUtils == null) {
-                    hBaseUtils = new HBaseUtils();
-                    hBaseUtils.init(hBaseConfig);
+    public static HBaseUtil getInstance(HBaseConfig hBaseConfig) {
+        if (hBaseUtil == null) {
+            synchronized (HBaseUtil.class) {
+                if (hBaseUtil == null) {
+                    hBaseUtil = new HBaseUtil();
+                    hBaseUtil.init(hBaseConfig);
                 }
             }
         }
-        return hBaseUtils;
+        return hBaseUtil;
     }
 
     /**
@@ -195,7 +195,7 @@ public class HBaseUtils {
     public static <T> void checkAndCreateTable(String tableName, List<T> splitKeys, List<String> columnFamilies) throws IOException {
         if (!isTableExist(tableName)){
             byte[][] keys = getSplitKeys(splitKeys);
-            HBaseUtils.createTableBySplitKeys(tableName,columnFamilies,keys,false);
+            HBaseUtil.createTableBySplitKeys(tableName,columnFamilies,keys,false);
         }
     }
     /**
@@ -240,7 +240,7 @@ public class HBaseUtils {
         byte[][] splitKeys = new byte[keys.size()][];
         TreeSet<byte[]> rows = new TreeSet<byte[]>(Bytes.BYTES_COMPARATOR);//升序排序
         for(T key:keys)
-            rows.add(ObjectUtils.toByteArray(key));
+            rows.add(ObjectUtil.toByteArray(key));
         Iterator<byte[]> rowKeyIter = rows.iterator();
         int i=0;
         while (rowKeyIter.hasNext()) {
@@ -368,7 +368,7 @@ public class HBaseUtils {
                     put.setDurability(Durability.SKIP_WAL); // 不写WAL日志
                     for (Map.Entry<String,Object> entry : map.entrySet()){
                         if (entry.getKey() != "rowkey"){
-                            put.addColumn(Bytes.toBytes(columnFamily),Bytes.toBytes(entry.getKey()), ObjectUtils.toByteArray(entry.getValue()));
+                            put.addColumn(Bytes.toBytes(columnFamily),Bytes.toBytes(entry.getKey()), ObjectUtil.toByteArray(entry.getValue()));
                         }
                         puts.add(put);
                     }
@@ -710,7 +710,7 @@ public class HBaseUtils {
     public static <T> void putData(String tableName,String rowkey,String cf,String cn,T value) throws IOException {
         Table table = connection.getTable(TableName.valueOf(tableName));
         Put put = new Put(Bytes.toBytes(rowkey));
-        put.addColumn(Bytes.toBytes(cf),Bytes.toBytes(cn), ObjectUtils.toByteArray(value));
+        put.addColumn(Bytes.toBytes(cf),Bytes.toBytes(cn), ObjectUtil.toByteArray(value));
         table.put(put);
         table.close();
     }
@@ -1060,7 +1060,7 @@ public class HBaseUtils {
     }
 
     public static void setConnection(Connection connection) {
-        HBaseUtils.connection = connection;
+        HBaseUtil.connection = connection;
     }
 
     /**
