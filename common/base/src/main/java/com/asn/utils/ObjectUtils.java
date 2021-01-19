@@ -1,4 +1,4 @@
-package asn.utils;
+package com.asn.utils;
 
 import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;

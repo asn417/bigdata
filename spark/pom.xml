@@ -56,15 +56,11 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql-kafka-0-10_2.12</artifactId>
         </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.18</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
         </dependency>
     </dependencies>
 

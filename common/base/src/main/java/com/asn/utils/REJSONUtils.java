@@ -1,7 +1,7 @@
-package asn.utils;
+package com.asn.utils;
 
 
-import asn.json.model.BaseJSONVo;
+import com.asn.json.model.BaseJSONVo;
 
 /**
  * @Author: wangsen

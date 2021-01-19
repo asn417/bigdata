@@ -1,4 +1,4 @@
-package asn.utils;
+package com.asn.utils;
 
 import java.util.UUID;
 

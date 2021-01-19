@@ -5,8 +5,8 @@ package com.asn.sparkApplication.controller;
  * @Date: 2020/11/21 11:03
  * @Description:
  **/
-import asn.json.model.BaseJSONVo;
-import asn.utils.REJSONUtils;
+import com.asn.json.model.BaseJSONVo;
+import com.asn.utils.REJSONUtils;
 import com.asn.aop.LogToKafka;
 import com.asn.config.ConfigTest;
 import com.asn.config.Dog;
@@ -16,6 +16,7 @@ import com.asn.producer.ProducerUtilConf;
 import com.asn.sparkApplication.model.SparkAppPara;
 import com.asn.sparkApplication.service.SparkAppInfoService;
 import com.asn.sparkApplication.service.SparkSubmitService;
+import com.asn.utils.SpringContextUtil;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,12 @@ public class SparkController {
         System.out.println(hBaseConfig);
         HBaseUtils.getInstance(hBaseConfig);
         RegionInfo regionInfo = HBaseUtils.getRegionInfo("mydb:test");
+        String appName = SpringContextUtil.getAppName();
+        System.out.println("appName: "+appName);
+        String contextName = SpringContextUtil.getContextName();
+        System.out.println("contextName: "+appName);
+        Dog dog = (Dog)SpringContextUtil.getBean("dog");
+        System.out.println(dog);
         return REJSONUtils.success(regionInfo.getRegionNameAsString(),"");
     }
 

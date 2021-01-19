@@ -1,4 +1,4 @@
-package asn.json.model;
+package com.asn.json.model;
 
 /**
  * @Author: wangsen

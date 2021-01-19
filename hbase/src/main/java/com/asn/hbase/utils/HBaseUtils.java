@@ -1,6 +1,6 @@
 package com.asn.hbase.utils;
 
-import asn.utils.ObjectUtils;
+import com.asn.utils.ObjectUtils;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.asn.hbase.config.HBaseConfig;
