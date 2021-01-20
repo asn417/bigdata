@@ -1,5 +1,6 @@
 package com.asn.listener;
 
+import com.asn.config.Dog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -30,6 +31,8 @@ public class MyApplicationEventListener implements ApplicationListener<Applicati
 
         //获取beanfactory中定义的bean数量
         int beanDefinitionCount = applicationContext.getBeanDefinitionCount();
+        Dog dog = (Dog)applicationContext.getBean("dog");
+        System.out.println(dog);//程序运行中，如果某个bean被修改了，这个监听器并不会被触发。这个监听器只有在程序启动时上下文准备完毕时触发。
         logger.info("beanDefinitionCount ==> "+beanDefinitionCount);
         logger.info("=== 上下文准备完毕 ===");
     }

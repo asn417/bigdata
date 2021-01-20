@@ -65,6 +65,7 @@ public class SparkController {
         String contextName = SpringContextUtil.getContextName();
         System.out.println("contextName: "+appName);
         Dog dog = (Dog)SpringContextUtil.getBean("dog");
+        dog.setDogName("asdasdasdasdasd");
         System.out.println(dog);
         return REJSONUtil.success(regionInfo.getRegionNameAsString(),"");
     }
