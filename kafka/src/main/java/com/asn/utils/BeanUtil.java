@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class BeanUtils {
-    private BeanUtils() {}
+public class BeanUtil {
+    private BeanUtil() {}
     /**
      * 对象序列化为byte数组
      *

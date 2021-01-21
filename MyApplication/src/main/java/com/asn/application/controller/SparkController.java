@@ -5,7 +5,6 @@ package com.asn.application.controller;
  * @Date: 2020/11/21 11:03
  * @Description:
  **/
-import cn.hutool.core.util.StrUtil;
 import com.asn.json.model.BaseJSONVo;
 import com.asn.utils.REJSONUtil;
 import com.asn.aop.LogToKafka;
@@ -133,7 +132,7 @@ public class SparkController {
 
     @RequestMapping("/generateLog")
     @ResponseBody
-    @LogToKafka(topic = "test-group")
+    @LogToKafka(topic = "test-topic")
     public String testLogToKafka(String topic) {
         System.out.println("args: "+topic);
         return topic;

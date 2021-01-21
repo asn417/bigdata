@@ -1,6 +1,7 @@
 package com.asn.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +30,9 @@ public class ProducerUtilConf {
         if (producer == null){
             synchronized (ProducerUtilConf.class) {
                 if (producer == null) {
-                    kafkaProps.put("bootstrap.servers",servers);
-                    kafkaProps.put("key.serializer",keySerializer);
-                    kafkaProps.put("value.serializer",valueSerializer);
+                    kafkaProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,servers);
+                    kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,keySerializer);
+                    kafkaProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,valueSerializer);
                     producer = new KafkaProducer(kafkaProps);
                 }
             }

@@ -1,6 +1,9 @@
 package com.asn.aop;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONUtil;
 import com.asn.producer.ProducerUtil;
+import com.asn.utils.LogUtil;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,6 +13,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: wangsen
@@ -78,27 +83,24 @@ public class LogAspect {
         // 获取方法传入参数
         Object[] params = joinPoint.getArgs();
         LogToKafka annotation = getDeclaredAnnotation(joinPoint);
-        System.out.println("==@Around== --》method name: " + methodName + " args: " + params[0]);
-
         String topic = annotation.topic();
-        System.out.println("==@Around== --》topic " + topic);
-
-        KafkaProducer<String, String> producer = ProducerUtil.getInstance();
-
-        /*ProducerRecord<String, String> record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),"message_key","message_value");
-        try {
-            producer.send(record);
-        } catch(Exception e){
-            e.printStackTrace();
-        }*/
-
-        if (topic.equals("test")){
-            // 执行被切入的方法，这里可以修改方法参数params，重新传入即可：proceed(params)
-            joinPoint.proceed();
-        }else {
-            params[0] = "topic1";
-            joinPoint.proceed(params);
+        if ( params[0] != null){
+            topic =  (String) params[0];
         }
+        ProducerUtil.getInstance();
+        ProducerRecord<String, String> record;
+
+        for (int i = 0; i < 100; i++) {
+            Map<String,String> message = createMessage();
+            String messageJson = JSONUtil.toJsonStr(message);
+            Thread.sleep(10);
+            record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,messageJson);
+
+            ProducerUtil.aync(record);
+        }
+
+        joinPoint.proceed(params);
+
     }
 
     /**
@@ -121,5 +123,15 @@ public class LogAspect {
         LogToKafka annotation = objMethod.getDeclaredAnnotation(LogToKafka.class);
         // 返回
         return annotation;
+    }
+
+    private Map<String,String> createMessage(){
+        Map<String,String> message = new HashMap<>();
+        message.put("userID",LogUtil.getID());
+        message.put("province", LogUtil.getProvince());
+        message.put("productID",LogUtil.getID());
+        message.put("productTypeID",LogUtil.getID());
+        message.put("price",LogUtil.getPrice());
+        return message;
     }
 }

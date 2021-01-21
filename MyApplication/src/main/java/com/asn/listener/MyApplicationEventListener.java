@@ -28,12 +28,8 @@ public class MyApplicationEventListener implements ApplicationListener<Applicati
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         ConfigurableApplicationContext applicationContext = event.getApplicationContext();
-
-        //获取beanfactory中定义的bean数量
-        int beanDefinitionCount = applicationContext.getBeanDefinitionCount();
-        Dog dog = (Dog)applicationContext.getBean("dog");
-        System.out.println(dog);//程序运行中，如果某个bean被修改了，这个监听器并不会被触发。这个监听器只有在程序启动时上下文准备完毕时触发。
-        logger.info("beanDefinitionCount ==> "+beanDefinitionCount);
         logger.info("=== 上下文准备完毕 ===");
+        //启动kafka消费者线程
+
     }
 }
