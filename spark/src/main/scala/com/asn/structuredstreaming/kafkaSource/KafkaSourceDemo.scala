@@ -1,7 +1,13 @@
 package com.asn.structuredstreaming.kafkaSource
 
+import net.minidev.json.JSONObject
+import net.minidev.json.parser.JSONParser
+import org.apache.spark.sql.execution.streaming.FileStreamSource.Timestamp
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.streaming.StreamingQuery
+import org.apache.spark.sql.types.{DataTypes, StructField, StructType}
+
+import scala.collection.mutable
 
 /**
  * http://spark.apache.org/docs/3.0.0/structured-streaming-kafka-integration.html
@@ -21,8 +27,8 @@ object KafkaSourceDemo {
     val source: DataFrame = spark
       .readStream
       .format("kafka")
-      .option("kafka.bootstrap.servers", "flink1:9092,flink2:9092")
-      .option("subscribe", "topicA")//可以订阅多个topic，还可以使用通配符
+      .option("kafka.bootstrap.servers", "master:9092")
+      .option("subscribe", "test-topic")//可以订阅多个topic，还可以使用通配符
       .option("startingOffsets","earliest")//earliest、assign、latest
       .load()
     // Subscribe to 1 topic
@@ -30,14 +36,38 @@ object KafkaSourceDemo {
     //打印读取的kafka的数据结构
     source.printSchema()
 
-    val result: StreamingQuery = source.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
-      .as[(String, String)]
+    val schema = StructType(mutable.Seq(
+      StructField("userID", DataTypes.StringType),
+      StructField("province", DataTypes.StringType),
+      StructField("productID", DataTypes.StringType),
+      StructField("productTypeID", DataTypes.StringType),
+      StructField("price", DataTypes.IntegerType)
+    ))
+
+
+    val result = source.selectExpr( "CAST(value AS STRING)","cast(timestamp as STRING)")
+      .map(a => {
+        val value: String = a.getAs("value")
+        val timestamp: String = a.getAs("timestamp")
+
+        val jsonParser = new JSONParser(JSONParser.MODE_JSON_SIMPLE)
+        val obj: JSONObject = jsonParser.parse(value).asInstanceOf[JSONObject]
+        val userID: AnyRef = obj.get("userID")
+        val province: AnyRef = obj.get("province")
+        val productID: AnyRef = obj.get("productID")
+        val productTypeID: AnyRef = obj.get("productTypeID")
+        val price: AnyRef = obj.get("price")
+
+        OrderData(userID.toString,province.toString,productID.toString,productTypeID.toString,price.toString,timestamp.toString)
+
+      }).createOrReplaceTempView("view")
+
+    spark.sql("select userID,count(*) from view group by userID")
       .writeStream
       .format("console")
       .outputMode("append")
       .start
 
-    result.awaitTermination()
     spark.stop()
     /*// Subscribe to 1 topic, with headers
     val df = spark
@@ -72,3 +102,5 @@ object KafkaSourceDemo {
   }
 
 }
+case class KafkaSource(json:String,timestamp: String)
+case class OrderData(userID:String,province:String,productID:String,productTypeID:String,price:String,timestamp: String)
