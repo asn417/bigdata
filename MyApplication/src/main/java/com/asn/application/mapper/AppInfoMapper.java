@@ -1,6 +1,6 @@
-package com.asn.sparkApplication.mapper;
+package com.asn.application.mapper;
 
-import com.asn.sparkApplication.model.AppInfo;
+import com.asn.application.model.AppInfo;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;

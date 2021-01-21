@@ -9,9 +9,9 @@
     </parent>
 
     <groupId>com.asn</groupId>
-    <artifactId>sparkApplication</artifactId>
+    <artifactId>MyApplication</artifactId>
     <version>${project.version}</version>
-    <name>sparkApplication</name>
+    <name>MyApplication</name>
 
     <properties>
         <java.version>1.8</java.version>

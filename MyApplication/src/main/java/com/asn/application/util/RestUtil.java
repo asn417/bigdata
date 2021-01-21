@@ -1,4 +1,4 @@
-package com.asn.sparkApplication.util;
+package com.asn.application.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

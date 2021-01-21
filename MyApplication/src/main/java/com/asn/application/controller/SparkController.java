@@ -1,10 +1,11 @@
-package com.asn.sparkApplication.controller;
+package com.asn.application.controller;
 
 /**
  * @Author: wangsen
  * @Date: 2020/11/21 11:03
  * @Description:
  **/
+import cn.hutool.core.util.StrUtil;
 import com.asn.json.model.BaseJSONVo;
 import com.asn.utils.REJSONUtil;
 import com.asn.aop.LogToKafka;
@@ -13,9 +14,9 @@ import com.asn.config.Dog;
 import com.asn.hbase.config.HBaseConfig;
 import com.asn.hbase.utils.HBaseUtil;
 import com.asn.producer.ProducerUtilConf;
-import com.asn.sparkApplication.model.SparkAppPara;
-import com.asn.sparkApplication.service.SparkAppInfoService;
-import com.asn.sparkApplication.service.SparkSubmitService;
+import com.asn.application.model.SparkAppPara;
+import com.asn.application.service.SparkAppInfoService;
+import com.asn.application.service.SparkSubmitService;
 import com.asn.utils.SpringContextUtil;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import org.slf4j.Logger;
@@ -130,10 +131,10 @@ public class SparkController {
         //return sparkAppInfoService.getAllAppInfo();
     }
 
-    @RequestMapping("/testLogToKafka")
+    @RequestMapping("/generateLog")
     @ResponseBody
     @LogToKafka(topic = "test-group")
-    public String testLogToKafka(String topic){
+    public String testLogToKafka(String topic) {
         System.out.println("args: "+topic);
         return topic;
     }

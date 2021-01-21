@@ -15,10 +15,10 @@
         <module>scala</module>
         <module>flink</module>
         <module>kafka</module>
-        <module>sparkApplication</module>
         <module>hbase</module>
         <module>common</module>
         <module>redis</module>
+        <module>MyApplication</module>
     </modules>
 
     <properties>

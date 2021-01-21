@@ -1,7 +1,7 @@
-package com.asn.sparkApplication.service;
+package com.asn.application.service;
 
-import com.asn.sparkApplication.model.SparkAppPara;
-import com.asn.sparkApplication.util.RestUtil;
+import com.asn.application.model.SparkAppPara;
+import com.asn.application.util.RestUtil;
 import org.apache.spark.launcher.SparkAppHandle;
 import org.apache.spark.launcher.SparkLauncher;
 import org.springframework.stereotype.Service;

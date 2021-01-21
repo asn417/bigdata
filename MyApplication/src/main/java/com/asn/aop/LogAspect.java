@@ -15,8 +15,16 @@ import java.lang.reflect.Method;
  * @Author: wangsen
  * @Date: 2020/12/5 16:18
  * @Description: 定义日志切面
- * Lazy注解:容器一般都会在启动的时候实例化所有单实例 bean，如果我们想要 Spring 在启动的时候延迟加载 bean，需要用到这个注解
- * value为true、false 默认为true,即延迟加载，@Lazy(false)表示对象会在初始化的时候创建
+ * Lazy注解: 容器启动时会初始化所有bean，如果想让某个bean在使用时才初始化，以便缩短容器启动时间，可以在类上加上此注解，默认值为true。
+ *
+ * spring的5种通知类型：
+ * 1)前置通知 (@Before)
+ * 2)返回通知 (@AfterReturning)
+ * 3)异常通知 (@AfterThrowing)
+ * 4)后置通知 (@After)
+ * 5)环绕通知 (@Around):（优先级最高）
+ *
+ * 同一个切面中的通知顺序：around -> before -> method -> afterReturning/afterThrowing -> after
  **/
 @Aspect
 @Component
@@ -25,7 +33,7 @@ public class LogAspect {
     /**
      * 定义切入点：拦截所有使用了com.asn.aop.LogToKafka注解的方法
      */
-    @Pointcut("within(@org.springframework.stereotype.Controller *) && @annotation(com.asn.aop.LogToKafka) && execution(* *(..))")
+    @Pointcut("@annotation(com.asn.aop.LogToKafka)")
     private void cutMethod() {}
 
     /**
@@ -61,7 +69,7 @@ public class LogAspect {
     }
 
     /**
-     * 环绕通知：可以修改方法参数
+     * 环绕通知：最先执行，需要显式调用目标方法，否则被拦截的方法不会执行。
      */
     @Around("cutMethod()")
     public void around(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -77,12 +85,12 @@ public class LogAspect {
 
         KafkaProducer<String, String> producer = ProducerUtil.getInstance();
 
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),"message_key","message_value");
+        /*ProducerRecord<String, String> record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),"message_key","message_value");
         try {
             producer.send(record);
         } catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
 
         if (topic.equals("test")){
             // 执行被切入的方法，这里可以修改方法参数params，重新传入即可：proceed(params)

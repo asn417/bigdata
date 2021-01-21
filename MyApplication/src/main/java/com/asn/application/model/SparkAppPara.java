@@ -1,4 +1,4 @@
-package com.asn.sparkApplication.model;
+package com.asn.application.model;
 
 /**
  * @Author: wangsen
