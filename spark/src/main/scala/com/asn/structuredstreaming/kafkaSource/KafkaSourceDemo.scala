@@ -43,8 +43,9 @@ object KafkaSourceDemo {
       StructField("productTypeID", DataTypes.StringType),
       StructField("price", DataTypes.IntegerType)
     ))
-
-
+    val query: StreamingQuery = source.selectExpr( "CAST(value AS STRING)","cast(timestamp as STRING)")
+      .writeStream.format("console").outputMode("append").start()
+/*
     val result = source.selectExpr( "CAST(value AS STRING)","cast(timestamp as STRING)")
       .map(a => {
         val value: String = a.getAs("value")
@@ -62,12 +63,14 @@ object KafkaSourceDemo {
 
       }).createOrReplaceTempView("view")
 
-    spark.sql("select userID,count(*) from view group by userID")
+    val start: StreamingQuery = spark.sql("select userID,count(*) from view group by userID")
       .writeStream
       .format("console")
-      .outputMode("append")
-      .start
+      .outputMode("complete")
+      .start*/
 
+    //start.awaitTermination()
+query.awaitTermination()
     spark.stop()
     /*// Subscribe to 1 topic, with headers
     val df = spark

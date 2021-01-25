@@ -68,11 +68,8 @@ public class ProducerUtil {
      * 异步发送
      */
     public static void aync(ProducerRecord record){
-        try {
-            producer.send(record, new DemonProducerCallback());
-        } catch(Exception e){
-            logger.error("消息发送失败",e.getMessage());
-        }
+        producer.send(record, new DemonProducerCallback());
+        //producer.flush();
     }
 
     /**

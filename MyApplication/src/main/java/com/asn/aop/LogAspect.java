@@ -1,10 +1,10 @@
 package com.asn.aop;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
+import com.asn.application.topN.UserAction;
 import com.asn.producer.ProducerUtil;
 import com.asn.utils.LogUtil;
-import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -13,7 +13,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +37,8 @@ import java.util.Map;
 @Component
 @Lazy(false)
 public class LogAspect {
+    //用户的行为列表
+    List<String> userBehaviors = Arrays.asList("pv", "buy", "cart", "fav");
     /**
      * 定义切入点：拦截所有使用了com.asn.aop.LogToKafka注解的方法
      */
@@ -91,10 +95,20 @@ public class LogAspect {
         ProducerRecord<String, String> record;
 
         for (int i = 0; i < 100; i++) {
-            Map<String,String> message = createMessage();
+            /*Map<String,Object> message = createMessage();
             String messageJson = JSONUtil.toJsonStr(message);
-            Thread.sleep(10);
-            record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,messageJson);
+            TimeUnit.MILLISECONDS.sleep(100);
+            record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,messageJson);*/
+
+            UserAction userAction = new UserAction();
+            userAction.setUserId(RandomUtils.nextLong(1, 100));
+            userAction.setItemId(RandomUtils.nextLong(1, 1000));
+            userAction.setCategoryId(RandomUtils.nextInt(1, 30));
+            userAction.setBehavior(userBehaviors.get(RandomUtils.nextInt(0, 3)));
+            userAction.setTimestamp(System.currentTimeMillis());
+            //转换成JSON
+            String userActionJson = JSONUtil.toJsonStr(userAction);
+            record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,userActionJson);
 
             ProducerUtil.aync(record);
         }
@@ -125,13 +139,14 @@ public class LogAspect {
         return annotation;
     }
 
-    private Map<String,String> createMessage(){
-        Map<String,String> message = new HashMap<>();
-        message.put("userID",LogUtil.getID());
+    private Map<String,Object> createMessage(){
+        Map<String,Object> message = new HashMap<>();
+        message.put("userID",LogUtil.getUserID());
         message.put("province", LogUtil.getProvince());
-        message.put("productID",LogUtil.getID());
-        message.put("productTypeID",LogUtil.getID());
+        message.put("productID",LogUtil.getProductID());
+        message.put("productTypeID",LogUtil.getProductTypeID());
         message.put("price",LogUtil.getPrice());
+        message.put("timeStamp",LogUtil.getTimeStamp());
         return message;
     }
 }

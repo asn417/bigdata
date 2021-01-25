@@ -1,4 +1,4 @@
-package com.asn.stream;
+package com.asn.learn.stream;
 
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
@@ -14,7 +14,7 @@ public class WordCount {
 
         DataStreamSource<String> source = env.readTextFile("D:\\ideaProject\\bigdata\\flink\\src\\main\\resources\\data\\word.txt");
 
-        SingleOutputStreamOperator<Tuple2<String, Integer>> sum = source.flatMap(new com.asn.batch.WordCount.MyFlatMapper()).keyBy(0).sum(1);
+        SingleOutputStreamOperator<Tuple2<String, Integer>> sum = source.flatMap(new com.asn.learn.batch.WordCount.MyFlatMapper()).keyBy(0).sum(1);
 
         sum.print();
 

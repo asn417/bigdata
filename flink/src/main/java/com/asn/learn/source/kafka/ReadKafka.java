@@ -1,4 +1,4 @@
-package com.asn.source.kafka;
+package com.asn.learn.source.kafka;
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.CheckpointingMode;

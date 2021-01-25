@@ -1,6 +1,7 @@
 package com.asn.producer;
 
 import com.asn.message.MessageVo;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.kafka.clients.producer.*;
 
 import java.time.LocalDateTime;
@@ -56,7 +57,7 @@ public class ProducerDemo {
         //ProducerRecord<String, String> record = new ProducerRecord<>("test","message_key","message_value");
         //ProducerRecord<String, String> recordWithCreateTime = new ProducerRecord<>("test",null,System.currentTimeMillis(),"message_key","message_value");
         for (int i = 0; i < 20; i++) {
-            MessageVo messageVo = new MessageVo(i, String.valueOf(new Random().nextInt(10)), LocalDateTime.now());
+            MessageVo messageVo = new MessageVo(RandomUtils.nextLong(1,100), String.valueOf(new Random().nextInt(10)), System.currentTimeMillis());
             ProducerRecord<String, Object> record = new ProducerRecord<>("test",messageVo);
             simpleSend(producer, record);
             //sync(producer, record);

@@ -1,4 +1,4 @@
-package com.asn.window;
+package com.asn.learn.window;
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;

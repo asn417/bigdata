@@ -21,6 +21,10 @@
             <artifactId>kafka-clients</artifactId>
             <version>2.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
     </dependencies>
 
     <!--指定打jar包的名称，默认的jar包名称由“groupId-version”组成-->

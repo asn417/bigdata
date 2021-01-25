@@ -36,6 +36,7 @@
         <spark.version>3.0.0</spark.version>
         <flink.version>1.10.0</flink.version>
         <kafka.version>2.3.0</kafka.version>
+        <druid.version>1.1.20</druid.version>
         <java.version>1.8</java.version>
         <scala.binary.version>2.12</scala.binary.version>
         <springboot.version>2.2.10.RELEASE</springboot.version>
@@ -268,6 +269,13 @@
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
                 <version>${apollo.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
             </dependency>
 
         </dependencies>

@@ -1,23 +1,21 @@
 package com.asn.message;
 
-import java.time.LocalDateTime;
-
 public class MessageVo {
-    private int userID;
+    private long userID;
     private String clientIP;
-    private LocalDateTime logTime;
+    private long logTime;
 
-    public MessageVo(int userID, String clientIP, LocalDateTime logTime) {
+    public MessageVo(long userID, String clientIP, long logTime) {
         this.userID = userID;
         this.clientIP = clientIP;
         this.logTime = logTime;
     }
 
-    public int getUserID() {
+    public long getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(long userID) {
         this.userID = userID;
     }
 
@@ -29,11 +27,11 @@ public class MessageVo {
         this.clientIP = clientIP;
     }
 
-    public LocalDateTime getLogTime() {
+    public long getLogTime() {
         return logTime;
     }
 
-    public void setLogTime(LocalDateTime logTime) {
+    public void setLogTime(long logTime) {
         this.logTime = logTime;
     }
 }
