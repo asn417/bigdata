@@ -18,6 +18,7 @@ import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrderness
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
+import org.apache.flink.streaming.api.windowing.windows.Window;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.util.Collector;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -58,7 +59,7 @@ public class TopNJob {
         prop.put("group.id", "topN");
         prop.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         prop.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        prop.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");//earliest
+        prop.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");//分区下有提交的offset时从提交的offset开始消费，没有则从头开始消费。
 
         DataStreamSource<String> dataStreamSource = env.addSource(new FlinkKafkaConsumer<>("test-topic", new SimpleStringSchema(), prop));
 
@@ -79,7 +80,7 @@ public class TopNJob {
         //窗口统计点击量 滑动的窗口 5分钟一次  统计一小时最高的  比如 [09:00, 10:00), [09:05, 10:05), [09:10, 10:10)…
         DataStream<ItemBuyCount> windowedData = filterData
                 .keyBy("itemId")//根据商品id分组
-                .timeWindow(Time.minutes(60L), Time.minutes(5L))
+                .timeWindow(Time.minutes(60L), Time.minutes(5L))//滑动窗口大小60分钟，滑动步长为5分钟
                 .aggregate(new CountAgg(), new WindowResultFunciton());
 
         //Top N 计算最热门的商品
@@ -159,15 +160,15 @@ public class TopNJob {
 
         @Override
         public void apply(
-                Tuple key, //窗口主键即itemId
+                Tuple tuple, //窗口主键即itemId
                 TimeWindow window, //窗口
-                Iterable<Long> aggregationResult, //集合函数的结果，即count的值
-                Collector<ItemBuyCount> collector //输出类型collector
+                Iterable<Long> input, //集合函数的结果，即count的值
+                Collector<ItemBuyCount> out //输出类型collector
         ) throws Exception {
 
-            Long itemId = ((Tuple1<Long>) key).f0;
-            Long count =aggregationResult.iterator().next();
-            collector.collect(ItemBuyCount.of(itemId, window.getEnd(), count));
+            Long itemId = ((Tuple1<Long>) tuple).f0;
+            Long count =input.iterator().next();
+            out.collect(ItemBuyCount.of(itemId, window.getEnd(), count));
 
         }
     }

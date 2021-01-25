@@ -92,7 +92,7 @@ public class LogAspect {
         if ( params[0] != null){
             topic =  (String) params[0];
         }
-        ProducerUtil.getInstance();
+        /*ProducerUtil.getInstance();
         ProducerRecord<String, String> record;
 
         for (int i = 0; i < 100; i++) {
@@ -112,7 +112,7 @@ public class LogAspect {
             record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,userActionJson);
 
             ProducerUtil.aync(record);
-        }
+        }*/
 
         joinPoint.proceed(params);
 

@@ -1,5 +1,7 @@
 package com.asn.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "config.test")
 public class ConfigTest {
+    private static Logger logger = LoggerFactory.getLogger(ConfigTest.class);
+
     private int age;
     private String name;
 
@@ -23,6 +27,7 @@ public class ConfigTest {
     //@Bean作用在方法上，将方法的返回对象作为bean对象注册到IOC容器中。默认的bean名称就是方法名称，可以通过name指定bean名称。
     @Bean(name = "dog")
     public Dog dog1(){
+        logger.info("初始化Dog bean对象");
         return new Dog("doog",1);
     }
 
