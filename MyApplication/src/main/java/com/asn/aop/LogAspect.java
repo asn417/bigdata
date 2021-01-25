@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: wangsen
@@ -95,10 +96,10 @@ public class LogAspect {
         ProducerRecord<String, String> record;
 
         for (int i = 0; i < 100; i++) {
-            /*Map<String,Object> message = createMessage();
+            Map<String,Object> message = createMessage();
             String messageJson = JSONUtil.toJsonStr(message);
             TimeUnit.MILLISECONDS.sleep(100);
-            record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,messageJson);*/
+            record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,messageJson);
 
             UserAction userAction = new UserAction();
             userAction.setUserId(RandomUtils.nextLong(1, 100));
@@ -119,7 +120,6 @@ public class LogAspect {
 
     /**
      * 获取方法中声明的注解
-     *
      * @param joinPoint
      * @return
      * @throws NoSuchMethodException

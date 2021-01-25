@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class SparkController {
@@ -132,9 +133,11 @@ public class SparkController {
 
     @RequestMapping("/generateLog")
     @ResponseBody
-    @LogToKafka(topic = "test-topic")
-    public String testLogToKafka(String topic) {
-        System.out.println("args: "+topic);
+    //@LogToKafka(topic = "test-topic")
+    public String testLogToKafka(String topic) throws InterruptedException {
+        System.out.println("线程："+Thread.currentThread().getId()+"，请求开始："+System.currentTimeMillis());
+        TimeUnit.SECONDS.sleep(10);
+        System.out.println("线程："+Thread.currentThread().getId()+"，请求结束："+System.currentTimeMillis());
         return topic;
     }
 }
