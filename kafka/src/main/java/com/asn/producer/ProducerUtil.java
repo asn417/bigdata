@@ -20,10 +20,12 @@ public class ProducerUtil {
         kafkaProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "master:9092");
         kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         kafkaProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        //开启producer的幂等性。但这种幂等性只能保证partition内部幂等性，如果一个topic有多个partition，则无法保证，需要再使用事务来解决。
+        kafkaProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,true);
         //Set acknowledgements for producer requests.
         kafkaProps.put(ProducerConfig.ACKS_CONFIG, "all");
         //If the request fails, the producer can automatically retry,
-        kafkaProps.put(ProducerConfig.RETRIES_CONFIG, 0);
+        kafkaProps.put(ProducerConfig.RETRIES_CONFIG, 3);
         //数据达到batch.size才会发送
         kafkaProps.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
         //发送的时间间隔，linger.ms和batch.size只要有一个满足就会发送消息
