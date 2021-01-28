@@ -6,8 +6,7 @@ package com.asn.application.controller;
  * @Description:
  **/
 import com.asn.json.model.BaseJSONVo;
-import com.asn.utils.REJSONUtil;
-import com.asn.aop.LogToKafka;
+import com.asn.utils.CommonPairResponse;
 import com.asn.config.ConfigTest;
 import com.asn.config.Dog;
 import com.asn.hbase.config.HBaseConfig;
@@ -68,7 +67,7 @@ public class SparkController {
         Dog dog = (Dog)SpringContextUtil.getBean("dog");
         dog.setDogName("asdasdasdasdasd");
         System.out.println(dog);
-        return REJSONUtil.success(regionInfo.getRegionNameAsString(),"");
+        return CommonPairResponse.success(regionInfo.getRegionNameAsString(),"");
     }
 
     @RequestMapping("/appInfo")
