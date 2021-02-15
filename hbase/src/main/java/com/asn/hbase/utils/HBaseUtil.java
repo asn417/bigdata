@@ -460,7 +460,7 @@ public class HBaseUtil {
      * @Param:
      * @Return:
      **/
-    public static ResultScanner scanTable(String tablename) throws IOException {
+    public static ResultScanner scanTable(String tablename) {
         Table table = null;
         ResultScanner results = null;
         try {
@@ -471,7 +471,11 @@ public class HBaseUtil {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            table.close();
+            try {
+                table.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return results;
     }

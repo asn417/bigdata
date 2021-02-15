@@ -132,6 +132,12 @@
                 <artifactId>hadoop-common</artifactId>
                 <version>${hadoop.version}</version>
             </dependency>
+            <!-- 解决hbase初始化时报错：java.lang.NoSuchMethodError: org.apache.hadoop.security.HadoopKerberosName.setRuleMechanism(Ljava/lang/String;)V -->
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-auth</artifactId>
+                <version>${hadoop.version}</version>
+            </dependency>
             <!-- spark依赖 -->
             <!-- 引入spark核心组件 -->
             <dependency>
