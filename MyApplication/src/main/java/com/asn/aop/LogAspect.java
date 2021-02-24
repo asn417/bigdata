@@ -92,10 +92,10 @@ public class LogAspect {
         if ( params[0] != null){
             topic =  (String) params[0];
         }
-        /*ProducerUtil.getInstance();
-        ProducerRecord<String, String> record;
 
-        for (int i = 0; i < 100; i++) {
+        ProducerUtil.getInstance();
+        ProducerRecord<String, String> record;
+        /*for (int i = 0; i < 100; i++) {
             Map<String,Object> message = createMessage();
             String messageJson = JSONUtil.toJsonStr(message);
             TimeUnit.MILLISECONDS.sleep(100);
@@ -113,9 +113,15 @@ public class LogAspect {
 
             ProducerUtil.aync(record);
         }*/
+        Map<String,Object> message = createMessage();
+        message.put("startTime",System.currentTimeMillis());
 
         joinPoint.proceed(params);
 
+        message.put("endTime",System.currentTimeMillis());
+        String messageJson = JSONUtil.toJsonStr(message);
+        record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,messageJson);
+        ProducerUtil.aync(record);
     }
 
     /**
