@@ -108,8 +108,8 @@ https://www.cnblogs.com/bugzeroman/p/12858116.html
         </RollingFile>
 
         <!-- 自定义每天滚动一个日志文件 -->
-        <RollingFile name="RollingTimeFile" fileName="${LOG_HOME}/${FILE_NAME}.log"
-                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}.log">
+        <RollingFile name="RollingTimeFile" fileName="${LOG_HOME}/${FILE_NAME}.json"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}.json">
             <PatternLayout pattern="${my_logger_pattern}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" />
