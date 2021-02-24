@@ -137,7 +137,7 @@ public class SparkController {
     @LogToKafka(topic = "test-topic")
     public String testLogToKafka(String topic) throws InterruptedException {
         System.out.println("线程："+Thread.currentThread().getId()+"，请求开始："+System.currentTimeMillis());
-        TimeUnit.MILLISECONDS.sleep(RandomUtils.nextInt(10,1000));
+        TimeUnit.MILLISECONDS.sleep(RandomUtils.nextInt(10,60000));
         System.out.println("线程："+Thread.currentThread().getId()+"，请求结束："+System.currentTimeMillis());
         return topic;
     }

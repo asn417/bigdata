@@ -9,6 +9,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Lazy(false)
 public class LogAspect {
+    private static Logger mylogger = LoggerFactory.getLogger("mylogger");
     //用户的行为列表
     List<String> userBehaviors = Arrays.asList("pv", "buy", "cart", "fav");
     /**
@@ -121,7 +124,9 @@ public class LogAspect {
         message.put("endTime",System.currentTimeMillis());
         String messageJson = JSONUtil.toJsonStr(message);
         record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,messageJson);
-        ProducerUtil.aync(record);
+        //ProducerUtil.aync(record);
+
+        mylogger.info(messageJson);
     }
 
     /**

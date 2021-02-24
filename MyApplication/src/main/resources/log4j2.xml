@@ -1,3 +1,7 @@
+<!--
+https://www.cnblogs.com/dengyungao/p/7524902.html
+https://www.cnblogs.com/bugzeroman/p/12858116.html
+ -->
 <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
 <!--
 	自定义命名格式：
@@ -22,6 +26,9 @@
         <!-- 日志显示模板,显示内容的格式如下 -->
         <!-- [21:55:33:047] [INFO] - org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173) - Initializing Spring embedded WebApplicationContext -->
         <Property name="log_pattern" value="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+
+        <Property name="my_logger_pattern" value="%m%n"/>
+
         <!-- 保存日志文件目录 -->
         <!--<Property name="file_path" value="${sys:user.home}/logs"/>-->
         <Property name="file_path" value="C:/logs"/>
@@ -31,6 +38,11 @@
         <Property name="backup_folder" value="$${date:yyyy-MM}"/>
         <!-- 备份文件的后缀，日志文件超过file_max_size会备份到filePattern指定的目录下 -->
         <Property name="backup_file_suffix" value="-%d{yyyy-MM-dd}-%i.log"/>
+
+
+        <property name="LOG_HOME">logs</property>
+        <property name="LOG_BACKUP">backup</property>
+        <property name="FILE_NAME">test</property>
     </Properties>
 
 
@@ -45,6 +57,12 @@
             <PatternLayout pattern="${log_pattern}"/>
         </console>
 
+        <console name="MyConsole" target="SYSTEM_OUT">
+            <!-- 设置控制台只输出INFO及以上级别的信息(onMatch),其他的直接拒绝(onMismatch) -->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--输出日志的格式-->
+            <PatternLayout pattern="${my_logger_pattern}"/>
+        </console>
         <!-- 所有的日志信息会打印到此文件中，append=false每次启动程序会自动清空 -->
         <!-- <File name="all" fileName="${file_path}/all.log" append="true">
             <PatternLayout pattern="${log_pattern}"/>
@@ -88,21 +106,30 @@
                 <SizeBasedTriggeringPolicy size="${file_max_size}"/>
             </Policies>
         </RollingFile>
+
+        <!-- 自定义每天滚动一个日志文件 -->
+        <RollingFile name="RollingTimeFile" fileName="${LOG_HOME}/${FILE_NAME}.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${my_logger_pattern}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+            </Policies>
+        </RollingFile>
     </appenders>
 
-    <!-- 只有定义了logger并使用appender-ref，appender才会生效 -->
     <loggers>
-        <!--过滤掉spring和hibernate的一些无用的debug信息-->
-        <logger name="org.springframework" level="INFO"/>
-        <logger name="org.mybatis" level="INFO">
-            <!-- 添加如下设置，控制台会再打印一次 -->
-            <AppenderRef ref="Console"/>
+        <!-- logger会根据名称继承，此外所有的logger都继承自root。默认情况下自定义的logger会继承root的appender，
+        如何自定义的logger自己又定义了appender，那么就有两个appender了，因此会出现一条日志被处理多次的情况。要避免这个现象
+        需要在logger中设置additivity属性为false，或者不自己定义appender-->
+        <logger name="mylogger" level="INFO" additivity="false">
+            <appender-ref ref="MyConsole"/>
+            <appender-ref ref="RollingTimeFile"/>
         </logger>
         <root level="INFO">
             <appender-ref ref="Console"/>
-            <appender-ref ref="RollingFileInfo"/>
+            <!--<appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileWarn"/>
-            <appender-ref ref="RollingFileError"/>
+            <appender-ref ref="RollingFileError"/>-->
         </root>
     </loggers>
 </configuration>
