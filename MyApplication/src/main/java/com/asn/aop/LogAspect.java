@@ -83,6 +83,7 @@ public class LogAspect {
      */
     @Around("cutMethod()")
     public void around(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
         // 获取目标方法的名称
         String methodName = joinPoint.getSignature().getName();
         // 获取方法传入参数
@@ -114,7 +115,8 @@ public class LogAspect {
             ProducerUtil.aync(record);
         }*/
 
-        joinPoint.proceed(params);
+        Object result = joinPoint.proceed(params);
+        long endTime = System.currentTimeMillis();
 
     }
 

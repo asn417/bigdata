@@ -5,9 +5,7 @@ import org.apache.spark.sql.types.{DataType, DoubleType, LongType, StructType}
 import org.apache.spark.sql.{DataFrame, Encoder, Encoders, Row, SparkSession}
 
 /**
- * @Author: wangsen
- * @Date: 2020/11/14 17:23
- * @Description: 自定义聚合函数
+ * UDAF(user defined aggregate function):用户自定义聚合函数，输入多行返回一行
  **/
 object UDAFDemo {
   def main(args: Array[String]): Unit = {
