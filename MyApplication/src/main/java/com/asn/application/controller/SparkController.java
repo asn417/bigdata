@@ -143,4 +143,9 @@ public class SparkController {
         System.out.println("线程："+Thread.currentThread().getId()+"，请求结束："+System.currentTimeMillis());
         return topic;
     }
+
+    @RequestMapping("/hello")
+    public String hello(){
+        return "hello";
+    }
 }

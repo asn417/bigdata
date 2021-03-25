@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>用户</title>
+</head>
+<body>
+    <h2>用户管理</h2>
+    <h2 th:text="${title}"></h2>
+
+    <table>
+        <tr>
+            <th>id</td>
+            <th>用户名</td>
+        </tr>
+        <tr th:each="user : ${userList}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+        </tr>
+    </table>
+</body>
+</html>

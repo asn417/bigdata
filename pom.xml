@@ -19,6 +19,7 @@
         <module>common</module>
         <module>redis</module>
         <module>MyApplication</module>
+        <module>springboot-web-demo</module>
     </modules>
 
     <properties>
