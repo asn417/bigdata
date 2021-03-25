@@ -5,7 +5,7 @@ package com.asn.json.model;
  * @Date: 2020/12/18 16:59
  * @Description:
  **/
-public class BaseJSONVo {
+public class BaseJSONVo<T,R> {
     private String result;
     private boolean isSuccess;
     private Object data;

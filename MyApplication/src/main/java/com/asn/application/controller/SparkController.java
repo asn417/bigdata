@@ -5,9 +5,9 @@ package com.asn.application.controller;
  * @Date: 2020/11/21 11:03
  * @Description:
  **/
-import com.asn.json.model.BaseJSONVo;
-import com.asn.utils.REJSONUtil;
 import com.asn.aop.LogToKafka;
+import com.asn.json.model.BaseJSONVo;
+import com.asn.utils.CommonPairResponse;
 import com.asn.config.ConfigTest;
 import com.asn.config.Dog;
 import com.asn.hbase.config.HBaseConfig;
@@ -17,6 +17,7 @@ import com.asn.application.model.SparkAppPara;
 import com.asn.application.service.SparkAppInfoService;
 import com.asn.application.service.SparkSubmitService;
 import com.asn.utils.SpringContextUtil;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,7 @@ public class SparkController {
         Dog dog = (Dog)SpringContextUtil.getBean("dog");
         dog.setDogName("asdasdasdasdasd");
         System.out.println(dog);
-        return REJSONUtil.success(regionInfo.getRegionNameAsString(),"");
+        return CommonPairResponse.success(regionInfo.getRegionNameAsString(),"");
     }
 
     @RequestMapping("/appInfo")
@@ -136,10 +137,10 @@ public class SparkController {
 
     @RequestMapping("/generateLog")
     @ResponseBody
-    //@LogToKafka(topic = "test-topic")
+    @LogToKafka(topic = "test-topic")
     public String testLogToKafka(String topic) throws InterruptedException {
         System.out.println("线程："+Thread.currentThread().getId()+"，请求开始："+System.currentTimeMillis());
-        TimeUnit.SECONDS.sleep(10);
+        TimeUnit.MILLISECONDS.sleep(RandomUtils.nextInt(10,10000));
         System.out.println("线程："+Thread.currentThread().getId()+"，请求结束："+System.currentTimeMillis());
         return topic;
     }

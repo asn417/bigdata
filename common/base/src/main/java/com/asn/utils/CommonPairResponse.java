@@ -8,7 +8,7 @@ import com.asn.json.model.BaseJSONVo;
  * @Date: 2020/12/18 17:03
  * @Description:
  **/
-public class REJSONUtil {
+public class CommonPairResponse<T,R> {
     public static final String SUCCESS = "success";
     public static final String ERROR = "error";
     public static final String WARN = "warn";

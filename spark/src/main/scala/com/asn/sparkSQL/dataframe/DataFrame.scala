@@ -13,7 +13,7 @@ object DataFrame {
     val sparkSession: SparkSession = SparkSession.builder()
       .appName(this.getClass.getSimpleName).master("local[*]").getOrCreate()
 
-    val frame: DataFrame = sparkSession.read.json("E:\\bigdata\\spark\\src\\main\\resources\\person.json")
+    val frame: DataFrame = sparkSession.read.json("E:\\bigdata\\spark\\src\\main\\resources\\data\\person.json")
 
     //展示数据
     frame.show()

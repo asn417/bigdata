@@ -9,6 +9,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Lazy(false)
 public class LogAspect {
+    private static Logger mylogger = LoggerFactory.getLogger("mylogger");
     //用户的行为列表
     List<String> userBehaviors = Arrays.asList("pv", "buy", "cart", "fav");
     /**
@@ -93,10 +96,10 @@ public class LogAspect {
         if ( params[0] != null){
             topic =  (String) params[0];
         }
-        /*ProducerUtil.getInstance();
-        ProducerRecord<String, String> record;
 
-        for (int i = 0; i < 100; i++) {
+        ProducerUtil.getInstance();
+        ProducerRecord<String, String> record;
+        /*for (int i = 0; i < 100; i++) {
             Map<String,Object> message = createMessage();
             String messageJson = JSONUtil.toJsonStr(message);
             TimeUnit.MILLISECONDS.sleep(100);
@@ -114,10 +117,18 @@ public class LogAspect {
 
             ProducerUtil.aync(record);
         }*/
+        Map<String,Object> message = createMessage();
+        message.put("startTime",System.currentTimeMillis());
 
         Object result = joinPoint.proceed(params);
         long endTime = System.currentTimeMillis();
 
+        message.put("endTime",System.currentTimeMillis());
+        String messageJson = JSONUtil.toJsonStr(message);
+        record = new ProducerRecord<>(topic,null,System.currentTimeMillis(),null,messageJson);
+        //ProducerUtil.aync(record);
+
+        mylogger.info(messageJson);
     }
 
     /**

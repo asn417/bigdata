@@ -1,5 +1,6 @@
-package com.asn.sparkCore.rdd
+package com.asn.sparkSQL.dataset
 
+import com.asn.sparkCore.rdd.StudentVo
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 /**
