@@ -24,7 +24,6 @@
 
     <properties>
         <project.version>1.0.0</project.version>
-
         <spring.boot.version>2.2.10.RELEASE</spring.boot.version>
         <hutool.version>5.3.2</hutool.version>
         <guava.version>27.0-jre</guava.version>
