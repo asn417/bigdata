@@ -20,6 +20,7 @@
         <module>redis</module>
         <module>MyApplication</module>
         <module>springboot-web-demo</module>
+        <module>springcloud-provider-dept-8001</module>
     </modules>
 
     <properties>
@@ -81,6 +82,15 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- springcloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- springboot -->
             <!-- springboot dependencies -->
             <dependency>
@@ -113,6 +123,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-jetty</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <!-- 热部署 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
             <!-- 工具类 -->
@@ -285,6 +301,18 @@
                 <version>${druid.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.18</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
