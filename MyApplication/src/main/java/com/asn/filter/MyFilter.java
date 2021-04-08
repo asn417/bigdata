@@ -13,14 +13,14 @@ public class MyFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("初始化过滤器");
+        System.out.println("初始化过滤器");//应用启动时就会初始化
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("过滤器对request的处理");
-        filterChain.doFilter(servletRequest,servletResponse);
-        System.out.println("过滤器对response的处理");
+        System.out.println("过滤器对request的处理");//调用被过滤的方法前执行
+        filterChain.doFilter(servletRequest,servletResponse);//执行方法
+        System.out.println("过滤器对response的处理");//方法执行结束后再执行此部分
     }
 
     @Override
