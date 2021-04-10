@@ -17,7 +17,6 @@
         <hbase.version>2.1.0</hbase.version>
     </properties>
     <dependencies>
-
         <dependency>
             <artifactId>base</artifactId>
             <groupId>org.example</groupId>
@@ -38,7 +37,5 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
-
 </project>
