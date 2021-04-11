@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * 通过重写WebMvcConfigurer接口中的相关方法，实现个性化MVC配置
+ * 通过重写WebMvcConfigurer接口中的相关方法，实现个性化MVC配置（拦截器、格式化器、视图控制器等），扩展springmvc
  */
 @Configuration
 public class MyMvcConfig implements WebMvcConfigurer {
