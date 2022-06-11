@@ -13,7 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -86,6 +89,12 @@ public class LogAspect {
      */
     @Around("cutMethod()")
     public void around(ProceedingJoinPoint joinPoint) throws Throwable {
+
+        /**
+         * 使用RequestContextHolder获取HttpServletRequest
+         */
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
         long startTime = System.currentTimeMillis();
         // 获取目标方法的名称
         String methodName = joinPoint.getSignature().getName();
